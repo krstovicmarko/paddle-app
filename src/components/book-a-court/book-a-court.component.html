@@ -1,0 +1,40 @@
+
+<div id="book-a-court">
+
+    <div id="court-info">
+        <div id="light-blue-pad">
+            <div id="info">
+                <div id="name">{{this.court!.name}}</div>
+                <div class="other-info">Location: {{this.court!.location}}</div>
+                <div class="other-info">Working hours: {{workingHours()}}</div>
+                <div class="other-info">Price per hour: {{this.court!.price_per_hour}}rsd</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="court-booking-choices">
+        <div id="your-match">
+            Your match
+        </div>
+
+        <div id="select-match-type-div">
+            Select match type: 
+            <select name="selectMatchType" id="select-match-type" [(ngModel)]="selectedMatchType" #selectedMatchTypeElement>
+                <option [value]="'single'">Single</option>
+                <option [value]="'double'">Double</option>
+            </select>
+        </div>
+
+        <div id="choose-players">
+            @if(selectedMatchType == 'double') {
+                <div> My team vs opponents </div>
+            } @else {
+                <div>Me vs opponent</div>
+            }
+            <div class="opposing-div">
+                <div class="my team">1.<span class="player-name"></span></div>
+                <div class="opposing team">1.<span class="player-name"></span></div>
+            </div>
+        </div>
+    </div>
+</div>
