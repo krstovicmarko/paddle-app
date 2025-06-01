@@ -19,7 +19,7 @@
 
         <div id="select-match-type-div">
             Select match type: 
-            <select name="selectMatchType" id="select-match-type" [(ngModel)]="selectedMatchType" #selectedMatchTypeElement>
+            <select name="selectMatchType" id="select-match-type" [(ngModel)]="selectedMatchType" (ngModelChange)="onSelectionChange($event)">
                 <option [value]="'single'">Single</option>
                 <option [value]="'double'">Double</option>
             </select>
@@ -32,8 +32,50 @@
                 <div>Me vs opponent</div>
             }
             <div class="opposing-div">
-                <div class="my team">1.<span class="player-name"></span></div>
-                <div class="opposing team">1.<span class="player-name"></span></div>
+                <div>
+                    1. <span class="choose-player-span">Me</span>
+                </div>
+                <div (click)="choosePlayer(1)">
+                    1. <span class="choose-player-span">{{playerName(1)}}</span>
+                </div>
+            </div>
+            @if(selectedMatchType == 'double') {
+                <div class="opposing-div">
+                    <div (click)="choosePlayer(2)">
+                        2. <span class="choose-player-span">{{playerName(2)}}</span>
+                    </div>
+                    <div (click)="choosePlayer(3)">
+                        2. <span class="choose-player-span">{{playerName(3)}}</span>
+                    </div>
+                </div>
+            }
+        </div>
+        <div id="choose-date">
+            Select date:
+            <input type="date" id="date" [(ngModel)]="chosenDate" (change)="onDateChange($event)" #dateInput>
+
+        </div>
+
+        @if (this.chosenDate != "") {
+            <div id="available-times">
+                <div id="time-label">Time</div>
+                <div id="timeslots">
+                    @for(time of this.courtTimes; track time) {
+                        <div class="timeslot" (click)="pickTime(time.time)" 
+                            [style]="{'background-color': time.availability == 2 ? '#dfff08' : '#f9f9f9'}">
+                            {{time.time}}
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        <div id="available-matches">
+            <div id="available-matches-label">
+                Available matches
+            </div>
+            <div id="available-matches-slots">
+                No available matches currently!
             </div>
         </div>
     </div>

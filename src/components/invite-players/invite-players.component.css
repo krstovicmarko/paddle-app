@@ -1,0 +1,46 @@
+
+#invite-players {
+    font-family: sans-serif;
+}
+
+#choose-invite-place {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    font-size: 2.3vh;
+    padding-top: 2vh;
+}
+
+#vertical-line-div {
+    border: 1px solid black;
+}
+
+.invite-place {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+#friend-invite-list {
+    padding-top: 2vh;
+    padding-left: 5vw;
+    padding-right: 5vw;
+}
+
+.num {
+    display: inline-block;
+    min-width: 7vw;
+}
+.name {
+    display: inline-block;
+    min-width: 45vw;
+}
+.pp-list-points {
+    padding: 4px;
+    display: inline-block;
+    background-color: #dfff08;
+    border-radius: 15px;
+}
+
+.invite {
+
+}

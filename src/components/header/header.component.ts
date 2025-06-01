@@ -20,6 +20,12 @@ export class HeaderComponent {
 
   setName() {
     let currentPage = this.localStorageService.getItem("currentPage") as string;
+    console.log(currentPage);
+    if (currentPage == null) {
+      this.name = "Padel Point";
+      this.haveBackButton = false;
+      return;
+    }
     if((this.localStorageService.getItem("currentPage") as string) != 'home') {
       let len = currentPage.indexOf("/") != -1 ? currentPage.indexOf("/") : currentPage.length;
       currentPage = currentPage[0].toUpperCase() + currentPage.substring(1, len);

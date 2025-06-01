@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Court } from '../../model/court';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterService } from '../../services/router.service';
+import { Availability, AvailableTime } from '../../model/available-time';
+import { CourtReservation } from '../../model/court-reservation';
+import { User } from '../../model/user';
 
 @Component({
   selector: 'app-book-a-court',
@@ -13,11 +17,20 @@ import { CommonModule } from '@angular/common';
   styleUrl: './book-a-court.component.css'
 })
 export class BookACourtComponent {
-  constructor(private route: ActivatedRoute, private localStorageService: LocalStorageService) {}
+  constructor(private route: ActivatedRoute, private localStorageService: LocalStorageService,
+    private routerService: RouterService
+  ) {}
+
+  @ViewChild('dateInput') dateInput!: ElementRef<HTMLInputElement>;
 
   court?: Court;
-  playerName: string = "          ";
+  courtTimes: AvailableTime[] = [];
+  chosenDate: string = "";
   selectedMatchType: string = "single";
+  courtReservation: CourtReservation = new CourtReservation(-1, -1, "", -1, [-1, -1]);
+  currentUser: User = this.localStorageService.getItem("currentUser") as User;
+  users: User[] = this.localStorageService.getItem("users") as User[];
+
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       // console.log(params.get('id'));
@@ -29,12 +42,35 @@ export class BookACourtComponent {
           break;
         }
       }
+      this.courtTimes = Array.from(
+        {length: this.court!.work_hours_end - this.court!.work_hours_start},
+        (_, i) => new AvailableTime((i + this.court!.work_hours_start) + ":00", Availability.Available));
+
+        for (let i = 0; i < this.courtTimes.length; i++) {
+        if (this.courtTimes[i].time.length != 5)
+            this.courtTimes[i].time = "0" + this.courtTimes[i].time;
+      }
+
+      const today = new Date();
+      const day =  String(today.getDate()).padStart(2, '0');
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const year = today.getFullYear();
+
+      this.chosenDate = `${year}-${month}-${day}`;
+
+      if (!this.localStorageService.exists("courtReservation")) {
+        this.localStorageService.setItem(
+          "courtReservation",
+          new CourtReservation(this.court!.id, -1, this.chosenDate, -1, [this.currentUser.id, -1])
+        )
+      } else {
+        this.selectedMatchType = (this.localStorageService.getItem("courtReservation") as CourtReservation).player_ids.length == 2 
+            ? 'signle' : 'double';
+      }
     });
+
   }
 
-  log(a: any) {
-    console.log(this.selectedMatchType);
-  }
 
   workingHours(): string {
     let start = this.court!.work_hours_start;
@@ -52,8 +88,56 @@ export class BookACourtComponent {
     return startStr + " - " + endStr;
   }
 
-  openSelect(selectElement: HTMLSelectElement) {
-    selectElement.focus();
-    selectElement.click();
+  choosePlayer(i: number) {
+    this.routerService.navigateTo("invite-players/" + i);
+  }
+
+  onDateChange(event: Event) {
+    let courtReservation = this.localStorageService.getItem("courtReservation") as CourtReservation;
+    console.log(this.chosenDate);
+    courtReservation.date = this.chosenDate;
+    this.localStorageService.setItem("courtReservation", courtReservation);
+  }
+
+  triggerDatePicker() {
+    this.dateInput.nativeElement.click();
+  }
+
+  pickTime(time: string) {
+    for (let i = 0; i < this.courtTimes.length; i++) {
+      if (time == this.courtTimes[i].time) {
+        if (this.courtTimes[i].availability == Availability.Available)
+          this.courtTimes[i].availability = Availability.Chosen;
+        else if (this.courtTimes[i].availability == Availability.Chosen)
+          this.courtTimes[i].availability = Availability.Available;
+
+        return;
+      }
+    }
+  }
+
+  playerName(i: number) : string {
+    let courtReservation = this.localStorageService.getItem("courtReservation") as CourtReservation;
+    if (i < courtReservation.player_ids.length) {
+      let player_id = courtReservation.player_ids[i];
+      for (let user of this.users) {
+        if (user.id == player_id) {
+          return user.name;
+        }
+      }
+    }
+
+    return "+";
+  }
+
+  onSelectionChange(event: Event) {
+    console.log(this.selectedMatchType);
+    let courtReservation = this.localStorageService.getItem("courtReservation") as CourtReservation;
+    if (this.selectedMatchType == "single" && courtReservation.player_ids.length == 4)
+      courtReservation.player_ids = [courtReservation.player_ids[0], courtReservation.player_ids[1]]
+    else if(this.selectedMatchType == "double" && courtReservation.player_ids.length == 2)
+        courtReservation.player_ids = [courtReservation.player_ids[0], courtReservation.player_ids[1], -1, -1];
+    
+    this.localStorageService.setItem("courtReservation", courtReservation);
   }
 }

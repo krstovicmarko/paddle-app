@@ -15,4 +15,8 @@ export class FooterComponent {
   goToUnimplemented() {
     this.routerService.navigateTo('unimplemented');
   }
+
+  goToHome() {
+    this.routerService.navigateTo('home');
+  }
 }

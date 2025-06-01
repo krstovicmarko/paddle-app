@@ -74,9 +74,68 @@
     padding-bottom: 1vh;
 }
 
-.player-name::before {
-    display: table-cell;
-    min-width: 10wv;
-    border-bottom: 1px solid black;
-    content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
+.choose-player-span {
+    display: inline-block;
+    border-bottom: 2px solid black;
+    width: 20vw;
+    height: 3vh;
+}
+
+#choose-date {
+    position: relative;
+    display: inline-block;
+    font-size: 2.3vh;
+    padding-left: 5vw;
+    padding-top: 3vh;
+}
+
+#date {
+    padding: 1vw;
+    appearance: none;
+    -webkit-appereance: none;
+    -moz-appereance: none;
+    background: #bde3ff;;
+    border: 0px solid #ccc;
+    border-radius: 10px;
+    background-size: 1em;
+    text-align: center;
+    font-size: 2vh;
+}
+
+#available-times {
+    font-size: 2.3vh;
+}
+
+#time-label {
+    padding-top: 2vh;
+    padding-left: 5vw;
+    font-size: 2.3vh;
+}
+
+#timeslots {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.timeslot {
+    margin: 1vh;
+    padding: 1vh;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+#available-matches {
+    padding-top: 2vh;
+}
+
+#available-matches-label {
+    font-size: 2.5vh;
+    font-weight: bold;
+}
+
+#available-matches-slots {
+    padding-top: 2vh;
+    padding-left: 5wv;
 }

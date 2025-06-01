@@ -1,0 +1,33 @@
+
+<div id="invite-players">
+    <div id="choose-invite-place">
+        <div class="invite-place" [style]="{'border-bottom': inviteFriends ? '3px solid #016dbd' : 'none'}"
+            (click)="inviteFriends=true">
+            My friends
+        </div>
+        <div id="vertical-line-div"></div>
+        <div class="invite-place" [style]="{'border-bottom': !inviteFriends ? '3px solid #016dbd' : 'none'}"
+            (click)="inviteFriends=false">
+            Add players
+        </div>
+    </div>
+
+    <div id="friend-invite-list">
+        <table>
+            <tr>
+                <th class="num"></th>
+                <th class="name"></th>
+                <th class="pp-list-points">PP list</th>
+                <th class="invite"></th>
+            </tr>
+            @for(friend of friends; track friend.id; let i = $index) {
+                <tr>
+                    <td class="num">{{ i + 1 }}.</td>
+                    <td class="name">{{friend.name}} {{friend.last_name}}</td>
+                    <td class="pp-list-points">{{friend.pp_points}}</td>
+                    <td class="invite" [style]="{'background-color': invited(friend.id) ? '#efcaff' : '#016dbd', 'color':  invited(friend.id) ? 'black' : 'white', 'border-radius': '10px'}" (click)="invite(friend.id)">{{ invited(friend.id) ? 'Invited' : 'Invite' }}</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
