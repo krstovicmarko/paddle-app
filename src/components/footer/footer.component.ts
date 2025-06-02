@@ -19,4 +19,8 @@ export class FooterComponent {
   goToHome() {
     this.routerService.navigateTo('home');
   }
+
+  goToNotification() {
+    this.routerService.navigateTo('notification');
+  }
 }

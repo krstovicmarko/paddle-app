@@ -7,6 +7,7 @@ import { InvitePlayersComponent } from '../components/invite-players/invite-play
 import { ConfirmMatchComponent } from '../components/confirm-match/confirm-match.component';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 import { SearchPlayersComponent } from '../components/search-players/search-players.component';
+import { NotificationComponent } from '../components/notification/notification.component';
 
 export const routes: Routes = [
     {path: 'home', component:HomeComponent},
@@ -17,4 +18,5 @@ export const routes: Routes = [
     {path: 'confirm-match', component:ConfirmMatchComponent},
     {path: 'confirmation/:type', component:ConfirmationComponent},
     {path: 'search-players/:idx', component:SearchPlayersComponent},
+    {path: 'notification', component:NotificationComponent},
 ];
