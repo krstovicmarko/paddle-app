@@ -1,0 +1,66 @@
+<div id="confirm-match">
+    <div id="your-match">
+        Your match
+    </div>
+    <div id="chosen-players">
+        @if(selectedMatchType == 'double') {
+            <div> My team vs opponents </div>
+        } @else {
+            <div>Me vs opponent</div>
+        }
+        <div class="opposing-div">
+            <div>
+                1. <span class="choose-player-span">Me</span>
+            </div>
+            <div (click)="choosePlayer(1)">
+                1. <span class="choose-player-span">{{playerName(1)}}</span>
+            </div>
+        </div>
+        @if(selectedMatchType == 'double') {
+            <div class="opposing-div">
+                <div (click)="choosePlayer(2)">
+                    2. <span class="choose-player-span">{{playerName(2)}}</span>
+                </div>
+                <div (click)="choosePlayer(3)">
+                    2. <span class="choose-player-span">{{playerName(3)}}</span>
+                </div>
+            </div>
+        }
+    </div>
+    
+    <div id="match-info-div">
+
+        <div class="match-info">
+            <span class="match-info-span">Match info:</span>
+            @if(selectedMatchType == 'double') {
+                <span>Double</span>
+            } @else {
+                <span>Single</span>
+            }
+        </div>
+        <div class="match-info">
+            <span class="match-info-span">Match day:</span>
+            <span>{{getDate()}}</span>
+        </div>
+
+        <div class="match-info">
+            <span class="match-info-span">Time:</span>
+            <span>{{getTime()}}</span>
+        </div>
+
+        <div class="match-info">
+            <span class="match-info-span">Court number:</span>
+            <span>{{getCourtNumber()}}</span>
+        </div>
+
+        <div class="match-info">
+            <span class="match-info-span">Club:</span>
+            <span>{{getClub()}}</span>
+        </div>
+
+    </div>
+
+    <div id="confirm-match-button-div">
+        <div id="confirm-match-button" (click)="confirmMatch()">Confirm match</div>
+    </div>
+</div>

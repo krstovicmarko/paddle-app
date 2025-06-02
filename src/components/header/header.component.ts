@@ -26,15 +26,18 @@ export class HeaderComponent {
       this.haveBackButton = false;
       return;
     }
-    if((this.localStorageService.getItem("currentPage") as string) != 'home') {
+    if(currentPage != 'home' && !currentPage.includes("confirmation")) {
       let len = currentPage.indexOf("/") != -1 ? currentPage.indexOf("/") : currentPage.length;
       currentPage = currentPage[0].toUpperCase() + currentPage.substring(1, len);
       currentPage = currentPage.replaceAll("-", " ");
       currentPage = currentPage.replaceAll("_", " ");
       this.name = currentPage;
       this.haveBackButton = true;
-    } else {
+    } else if(currentPage == 'home') {
       this.name = "Padel Point"; 
+      this.haveBackButton = false;
+    } else {
+      this.name = "";
       this.haveBackButton = false;
     }
   }

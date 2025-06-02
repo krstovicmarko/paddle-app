@@ -4,6 +4,9 @@ import { HomeComponent } from '../components/home/home.component';
 import { UnimplementedComponent } from '../components/unimplemented/unimplemented.component';
 import { BookACourtComponent } from '../components/book-a-court/book-a-court.component';
 import { InvitePlayersComponent } from '../components/invite-players/invite-players.component';
+import { ConfirmMatchComponent } from '../components/confirm-match/confirm-match.component';
+import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
+import { SearchPlayersComponent } from '../components/search-players/search-players.component';
 
 export const routes: Routes = [
     {path: 'home', component:HomeComponent},
@@ -11,4 +14,7 @@ export const routes: Routes = [
     {path: 'unimplemented', component:UnimplementedComponent},
     {path: 'book-a-court/:id', component:BookACourtComponent},
     {path: 'invite-players/:idx', component:InvitePlayersComponent},
+    {path: 'confirm-match', component:ConfirmMatchComponent},
+    {path: 'confirmation/:type', component:ConfirmationComponent},
+    {path: 'search-players/:idx', component:SearchPlayersComponent},
 ];

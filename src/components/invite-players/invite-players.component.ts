@@ -1,14 +1,18 @@
 import { Component } from '@angular/core';
-import { User } from '../../model/user';
+import { Gender, User } from '../../model/user';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { ActivatedRoute } from '@angular/router';
 import { Friends } from '../../model/friends';
 import { CourtReservation } from '../../model/court-reservation';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { PlayerSearch } from '../../model/player-search';
+import { RouterService } from '../../services/router.service';
 
 @Component({
   selector: 'app-invite-players',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './invite-players.component.html',
   styleUrl: './invite-players.component.css'
 })
@@ -18,8 +22,13 @@ export class InvitePlayersComponent {
   friends: User[] = [];
   idx: number = -1;
   courtReservation: CourtReservation = this.localStorageService.getItem("courtReservation") as CourtReservation;
+  isSingle: boolean = false;
+  gender: boolean = false;
+  selectedLeague: string = '0';
 
-  constructor(private route: ActivatedRoute, private localStorageService: LocalStorageService) {
+  constructor(private route: ActivatedRoute, private localStorageService: LocalStorageService,
+              private routerService: RouterService
+  ) {
 
   }
 
@@ -42,6 +51,8 @@ export class InvitePlayersComponent {
         }
       }
     }
+
+    this.isSingle = this.courtReservation.player_ids.length == 2;
 
   }
 
@@ -78,4 +89,26 @@ export class InvitePlayersComponent {
     return false;
   }
 
+  changeMatch(type: string) {
+    if (type == 'single') {
+      this.isSingle = true;
+      if (this.courtReservation.player_ids.length != 2) {
+        this.courtReservation.player_ids = [this.courtReservation.player_ids[0], this.courtReservation.player_ids[1]];
+      }
+    } else {
+      this.isSingle = false;
+      if (this.courtReservation.player_ids.length != 4) {
+        this.courtReservation.player_ids = [this.courtReservation.player_ids[0], this.courtReservation.player_ids[1], -1, -1];
+      }
+    }
+
+    this.localStorageService.setItem("courtReservation", this.courtReservation);
+  }
+
+  searchPlayers() {
+
+    this.localStorageService.setItem("playerSearch", new PlayerSearch(Number(this.selectedLeague), this.gender ? Gender.Female : Gender.Male));
+    this.routerService.navigateTo("search-players/" + this.idx);
+
+  }
 }

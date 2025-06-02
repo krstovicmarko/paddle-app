@@ -12,22 +12,83 @@
         </div>
     </div>
 
-    <div id="friend-invite-list">
-        <table>
-            <tr>
-                <th class="num"></th>
-                <th class="name"></th>
-                <th class="pp-list-points">PP list</th>
-                <th class="invite"></th>
-            </tr>
-            @for(friend of friends; track friend.id; let i = $index) {
+    @if (inviteFriends) {
+        <div id="friend-invite-list">
+            <table>
                 <tr>
-                    <td class="num">{{ i + 1 }}.</td>
-                    <td class="name">{{friend.name}} {{friend.last_name}}</td>
-                    <td class="pp-list-points">{{friend.pp_points}}</td>
-                    <td class="invite" [style]="{'background-color': invited(friend.id) ? '#efcaff' : '#016dbd', 'color':  invited(friend.id) ? 'black' : 'white', 'border-radius': '10px'}" (click)="invite(friend.id)">{{ invited(friend.id) ? 'Invited' : 'Invite' }}</td>
+                    <th class="num"></th>
+                    <th class="name"></th>
+                    <th class="pp-list-points">PP list</th>
+                    <th class="invite"></th>
                 </tr>
-            }
-        </table>
-    </div>
+                @for(friend of friends; track friend.id; let i = $index) {
+                    <tr>
+                        <td class="num">{{ i + 1 }}.</td>
+                        <td class="name">{{friend.name}} {{friend.last_name}}</td>
+                        <td class="pp-list-points">{{friend.pp_points}}</td>
+                        <td class="invite" [style]="{'background-color': invited(friend.id) ? '#efcaff' : '#016dbd', 'color':  invited(friend.id) ? 'black' : 'white', 'border-radius': '10px'}" (click)="invite(friend.id)">{{ invited(friend.id) ? 'Invited' : 'Invite' }}</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    } @else {
+        <div id="add-players">
+            <div id="qr-code-div">
+                <div id="qr-code-text">Scan QR code</div>
+                <div>
+                    <img id="qr-code-img" src="../../assets/images/qr-code.png" alt="">
+                </div>
+            </div>
+            <div id="share-link-div">
+                <div id="share-link-text">Share link via</div>
+                <div>
+                    <img id="share-link-img" src="../../assets/images/link.png" alt="">
+                </div>
+            </div>
+
+            <div id="invite-free-players">
+                <div id="invite-free-players-text">Invite free players</div>
+                <div id="invite-select">
+                    <div class="select-div">
+                        <div>Select match</div>
+                        <div class="choice">
+                            <span [style]="{ 'border-bottom': isSingle ? '2px solid #016dbd' : 'none' }" (click)="changeMatch('single')">Single</span>
+                            <span>/</span>
+                            <span [style]="{ 'border-bottom': !isSingle ? '2px solid #016dbd' : 'none' }" (click)="changeMatch('double')">Double</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="invite-select">
+                    <div class="select-div">
+                        <div>Select gender</div>
+                        <div class="choice">
+                            <span [style]="{ 'border-bottom': !gender ? '2px solid #016dbd' : 'none' }" (click)="gender = false">Male</span>
+                            <span>/</span>
+                            <span [style]="{ 'border-bottom': gender ? '2px solid #016dbd' : 'none' }" (click)="gender = true">Female</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="invite-select">
+                    <div class="select-div">
+                        <div>Select gender</div>
+                        <div class="choice">
+                            <select name="selectLeague" id="select-league" [(ngModel)]="selectedLeague">
+                                <option [value]="'0'">All leagues</option>
+                                <option [value]="'1'">League 1</option>
+                                <option [value]="'2'">League 2</option>
+                                <option [value]="'3'">League 3</option>
+                                <option [value]="'4'">League 4</option>
+                                <option [value]="'5'">League 5</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="search-players-div">
+                <div id="search-players-button" (click)="searchPlayers()">Search players</div>
+            </div>
+
+        </div>
+    }
 </div>

@@ -27,9 +27,21 @@ export class BookACourtComponent {
   courtTimes: AvailableTime[] = [];
   chosenDate: string = "";
   selectedMatchType: string = "single";
-  courtReservation: CourtReservation = new CourtReservation(-1, -1, "", -1, [-1, -1]);
+  courtReservation: CourtReservation = new CourtReservation(-1, -1, "", -1, [-1, -1], 0);
   currentUser: User = this.localStorageService.getItem("currentUser") as User;
   users: User[] = this.localStorageService.getItem("users") as User[];
+  canConfirmMatch: boolean = false;
+
+  initCourtTimes() {
+    this.courtTimes = Array.from(
+      {length: this.court!.work_hours_end - this.court!.work_hours_start},
+      (_, i) => new AvailableTime((i + this.court!.work_hours_start) + ":00", Availability.Available));
+
+      for (let i = 0; i < this.courtTimes.length; i++) {
+      if (this.courtTimes[i].time.length != 5)
+          this.courtTimes[i].time = "0" + this.courtTimes[i].time;
+    }
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -42,14 +54,8 @@ export class BookACourtComponent {
           break;
         }
       }
-      this.courtTimes = Array.from(
-        {length: this.court!.work_hours_end - this.court!.work_hours_start},
-        (_, i) => new AvailableTime((i + this.court!.work_hours_start) + ":00", Availability.Available));
 
-        for (let i = 0; i < this.courtTimes.length; i++) {
-        if (this.courtTimes[i].time.length != 5)
-            this.courtTimes[i].time = "0" + this.courtTimes[i].time;
-      }
+      this.initCourtTimes();
 
       const today = new Date();
       const day =  String(today.getDate()).padStart(2, '0');
@@ -61,7 +67,7 @@ export class BookACourtComponent {
       if (!this.localStorageService.exists("courtReservation")) {
         this.localStorageService.setItem(
           "courtReservation",
-          new CourtReservation(this.court!.id, -1, this.chosenDate, -1, [this.currentUser.id, -1])
+          new CourtReservation(this.court!.id, -1, this.chosenDate, -1, [this.currentUser.id, -1], 0)
         )
       } else {
         this.selectedMatchType = (this.localStorageService.getItem("courtReservation") as CourtReservation).player_ids.length == 2 
@@ -97,6 +103,8 @@ export class BookACourtComponent {
     console.log(this.chosenDate);
     courtReservation.date = this.chosenDate;
     this.localStorageService.setItem("courtReservation", courtReservation);
+    this.initCourtTimes();
+    this.checkCanConfirmMatch();
   }
 
   triggerDatePicker() {
@@ -111,9 +119,11 @@ export class BookACourtComponent {
         else if (this.courtTimes[i].availability == Availability.Chosen)
           this.courtTimes[i].availability = Availability.Available;
 
+        this.checkCanConfirmMatch();
         return;
       }
     }
+
   }
 
   playerName(i: number) : string {
@@ -139,5 +149,54 @@ export class BookACourtComponent {
         courtReservation.player_ids = [courtReservation.player_ids[0], courtReservation.player_ids[1], -1, -1];
     
     this.localStorageService.setItem("courtReservation", courtReservation);
+    this.checkCanConfirmMatch();
+  }
+
+  checkCanConfirmMatch() {
+    let courtReservation = this.localStorageService.getItem("courtReservation") as CourtReservation;
+    if (courtReservation.date == "") {
+        this.canConfirmMatch = false;
+        return;
+    }
+
+    for (let id of courtReservation.player_ids) {
+      if (id == -1) {
+        this.canConfirmMatch = false;
+        return;
+      }
+    }
+
+    let foundCourtTime = -1;
+    let duration = 0;
+    for (let courtTime of this.courtTimes) {
+      if (courtTime.availability == Availability.Chosen) {
+        if (foundCourtTime == -1) {
+          foundCourtTime = Number(courtTime.time.split(":")[0])
+          duration = 1;
+        } else {
+          let chosenTime = Number(courtTime.time.split(":")[0]);
+          if (foundCourtTime + duration == chosenTime) {
+            duration += 1;
+          } else {
+            this.canConfirmMatch = false;
+            return;
+          }
+        }
+      }
+    }
+
+    if (foundCourtTime == -1) {
+      this.canConfirmMatch = false;
+      return;
+    }
+    courtReservation.duration = duration;
+    courtReservation.time = foundCourtTime;
+    courtReservation.court_num = 1;
+    this.canConfirmMatch = true;
+    this.localStorageService.setItem("courtReservation", courtReservation);
+  }
+
+  confirmMatch() {
+    this.routerService.navigateTo("confirm-match");
   }
 }

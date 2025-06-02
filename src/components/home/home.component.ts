@@ -70,6 +70,10 @@ export class HomeComponent implements OnInit {
       ]);
     }
 
+    if (!localStorageService.exists("courtReservations")) {
+      localStorageService.setItem("courtReservations", []);
+    }
+
     this.courts = localStorageService.getItem("courts") as Court[];
 
   }

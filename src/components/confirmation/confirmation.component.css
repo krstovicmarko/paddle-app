@@ -1,0 +1,27 @@
+#confirmation {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #016dbd;
+    color: #dfff08;
+    font-size: 3.0vh;
+}
+
+.confirmation-message {
+    text-align: center;
+    font-weight: bold;
+}
+
+#logo-img-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#logo-img {
+    object-fit: contain;
+    height: 35vh;
+    
+}

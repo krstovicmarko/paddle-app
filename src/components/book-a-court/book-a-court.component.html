@@ -70,6 +70,12 @@
             </div>
         }
 
+        @if (this.canConfirmMatch) {
+            <div id="confirm-match-div">
+                <div id="confirm-match" (click)="confirmMatch()">Confirm match</div>
+            </div>
+        }
+
         <div id="available-matches">
             <div id="available-matches-label">
                 Available matches
