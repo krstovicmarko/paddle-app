@@ -14,10 +14,12 @@ import { CourtReservation } from '../../model/court-reservation';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-  constructor(private routerService: RouterService) { }
+  constructor(private routerService: RouterService, private localStorageService: LocalStorageService) {}
   courts: Court[] = [];
+  upcomingMatch?: CourtReservation = undefined;
+  currentUser?: User;
   ngOnInit(): void {
-    let localStorageService: LocalStorageService = new LocalStorageService();
+    let localStorageService: LocalStorageService = this.localStorageService;
     if (!localStorageService.exists("pages")) {
       localStorageService.setItem("pages", ["home", "unimplemented"]);
     }
@@ -58,7 +60,8 @@ export class HomeComponent implements OnInit {
     }
 
     if (!localStorageService.exists("currentUser")) {
-      localStorageService.setItem("currentUser", (localStorageService.getItem("users") as User[])[0]);
+      this.currentUser = (localStorageService.getItem("users") as User[])[0];
+      localStorageService.setItem("currentUser", this.currentUser);
     }
 
     if (!localStorageService.exists("friends")) {
@@ -72,9 +75,21 @@ export class HomeComponent implements OnInit {
     }
 
     if (!localStorageService.exists("courtReservations")) {
-      localStorageService.setItem("courtReservations", []);
+      let date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate() + 2;
+
+      let court = (localStorageService.getItem("courts") as Court[])[0];
+
+      localStorageService.setItem("courtReservations", [
+        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 2, [0, 1, 2, 3], 1)
+      ]);
     }
 
+    if (!localStorageService.exists("friendRequests")) {
+      localStorageService.setItem("friendRequests", []);
+    }
     this.courts = localStorageService.getItem("courts") as Court[];
 
     const sampleMatches: CourtReservation[] = [
@@ -121,9 +136,20 @@ export class HomeComponent implements OnInit {
 
     localStorageService.setItem("courtReservations", sampleMatches);
 
+    this.upcomingMatch = this.getUpcomingMatch();
   }
 
   goToBookACourt(id: number) {
     this.routerService.navigateTo("book-a-court/" + id);
+  }
+
+  getUpcomingMatch(): CourtReservation | undefined {
+    let courtReservation = undefined;
+    let courtReservations = this.localStorageService.getItem("courtReservations") as CourtReservation[];
+    let minYear = -1;
+    let minMonth = -1;
+    let minDay = -1;
+    return courtReservation;
+
   }
 }

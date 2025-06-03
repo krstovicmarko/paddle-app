@@ -64,14 +64,15 @@ export class BookACourtComponent {
 
       this.chosenDate = `${year}-${month}-${day}`;
 
-      if (!this.localStorageService.exists("courtReservation")) {
+      if (!this.localStorageService.exists("courtReservation") || 
+          (this.localStorageService.getItem("courtReservation") as CourtReservation).court_id != this.court!.id) {
         this.localStorageService.setItem(
           "courtReservation",
           new CourtReservation(this.court!.id, -1, this.chosenDate, -1, [this.currentUser.id, -1], 0)
         )
       } else {
         this.selectedMatchType = (this.localStorageService.getItem("courtReservation") as CourtReservation).player_ids.length == 2 
-            ? 'signle' : 'double';
+            ? 'single' : 'double';
       }
     });
 
@@ -141,7 +142,7 @@ export class BookACourtComponent {
   }
 
   onSelectionChange(event: Event) {
-    console.log(this.selectedMatchType);
+    // console.log(this.selectedMatchType);
     let courtReservation = this.localStorageService.getItem("courtReservation") as CourtReservation;
     if (this.selectedMatchType == "single" && courtReservation.player_ids.length == 4)
       courtReservation.player_ids = [courtReservation.player_ids[0], courtReservation.player_ids[1]]

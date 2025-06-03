@@ -1,1 +1,23 @@
-<p>search-players works!</p>
+<div id="search-players-div">
+    <div id="available-players-div">Available players</div>
+    <div>
+        <div id="available-players-list">
+            <table>
+                <tr>
+                    <th class="num"></th>
+                    <th class="name"></th>
+                    <th class="pp-list-points">PP list</th>
+                    <th class="invite"></th>
+                </tr>
+                @for(player of players; track player.id; let i = $index) {
+                    <tr>
+                        <td class="num">{{ i + 1 }}.</td>
+                        <td class="name" (click)="availablePlayer(player.id)">{{player.name}} {{player.last_name}}</td>
+                        <td class="pp-list-points">{{player.pp_points}}</td>
+                        <td class="invite" [style]="{'background-color': invited(player.id) ? '#efcaff' : '#016dbd', 'color':  invited(player.id) ? 'black' : 'white', 'border-radius': '10px'}" (click)="invite(player.id)">{{ invited(player.id) ? 'Invited' : 'Invite' }}</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>

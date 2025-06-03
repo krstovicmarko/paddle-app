@@ -35,3 +35,10 @@
     padding-left: 2vw;
     color: white;
 }
+
+#upcoming-match {
+    padding-top: 3vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

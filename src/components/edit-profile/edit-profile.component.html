@@ -1,0 +1,38 @@
+<div id="edit-profile">
+    <div id="picture-div">
+        <img id="picture" src="../../assets/images/profile-pic.png" alt="">
+    </div>
+    <div id="other-than-picture">
+        <div id="id-div">
+            ID: {{currentUser.id}}
+        </div>
+
+        <div id="info-div">
+            <div class="info-elements">
+                <span class="info-label">Name</span>
+                <input type="text" (blur)="onInputDone()" class="info-element" [(ngModel)]="currentUser.name">
+            </div>
+            <div class="info-label">
+                <span class="info-label">Last name</span>
+                <input type="text" (blur)="onInputDone()" class="info-element" [(ngModel)]="currentUser.last_name">
+            </div>
+            <div class="info-label">
+                <span class="info-label">Gender</span>
+                <input type="text" (blur)="onGenderDone()" class="info-element" [(ngModel)]="gender">
+            </div>
+            <div class="info-label">
+                <span class="info-label">Mail</span>
+                <input type="text" (blur)="onInputDone()" class="info-element" [(ngModel)]="currentUser.mail">
+            </div>
+            <div class="info-label">
+                <span class="info-label">Date of birth</span>
+                <input type="text" (blur)="onInputDone()" class="info-element" [(ngModel)]="currentUser.dateOfBirth">
+            </div>
+        </div>
+
+        <div id="logout-div" (click)="goToUnimplemented()">
+            <div style="align-self: center;">Log out</div>
+            <div><img id="logout-img" src="../../assets/images/logout.png" alt=""></div>
+        </div>
+    </div>
+</div>

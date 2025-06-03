@@ -1,0 +1,5 @@
+<app-profile></app-profile>
+<div id="add-buttons">
+    <div class="add-button" (click)="invitePlayer()">Invite player</div>
+    <div class="add-button" (click)="addFriend()" [class.sent]="friendRequestSent">{{ friendRequestSent ? 'Request Sent': 'Add friend'}}</div>
+</div>

@@ -9,6 +9,9 @@ import { ConfirmationComponent } from '../components/confirmation/confirmation.c
 import { SearchPlayersComponent } from '../components/search-players/search-players.component';
 import { NotificationComponent } from '../components/notification/notification.component';
 import { MatchHistoryComponent } from '../components/match-history/match-history.component';
+import { AvailablePlayersComponent } from '../components/available-players/available-players.component';
+import { ProfileComponent } from '../components/profile/profile.component';
+import { EditProfileComponent } from '../components/edit-profile/edit-profile.component';
 
 export const routes: Routes = [
     {path: 'home', component:HomeComponent},
@@ -21,4 +24,7 @@ export const routes: Routes = [
     {path: 'search-players/:idx', component:SearchPlayersComponent},
     {path: 'notification', component:NotificationComponent},
     {path: 'match-history', component:MatchHistoryComponent},
+    {path: 'available-players/:id/:idx', component:AvailablePlayersComponent},
+    {path: 'profile/:id', component:ProfileComponent},
+    {path: 'edit-profile', component:EditProfileComponent},
 ];
