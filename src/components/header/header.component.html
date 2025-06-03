@@ -1,10 +1,20 @@
 <div id="app-header">
     <div id="header-text">
-        @if (haveBackButton) {
-            <div (click)="back()"><img id="back-button" src="../../assets/images/back-arrow.png" alt=""></div> 
-        } @else {
-            <div id="back-button"></div>
+        <div style="display: flex;">
+            @if (haveBackButton) {
+                <div (click)="back()"><img id="back-button" src="../../assets/images/back-arrow.png" alt=""></div> 
+            } @else {
+                <div id="back-button"></div>
+            }
+            <div>{{name}}</div>
+        </div>
+        @if (currentPage.includes('profile') && !currentPage.includes('edit')) {
+            <div style="display: flex;">
+                    <div stle="padding-left: 5vw; align-self: center;" (click)="goToUnimplemented()">
+                        <img style="padding-left: 5vw; object-fit: contain; width: 10vw; height: 10vw;" src="../../assets/images/messages.png" alt="">
+                    </div>
+                    <div style="padding-left: 5vw; padding-right: 5vw; font-size: 2.5vh; align-self: center;" (click)="goToEditProfile()">Edit</div>
+            </div>
         }
-        <div>{{name}}</div>
     </div>
 </div>

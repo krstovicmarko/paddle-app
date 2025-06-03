@@ -1,0 +1,107 @@
+
+<div id="profile">
+    @if (id == currentUser.id) {
+        <div id="get-verification-div">
+            <div id="get-verification">Get verification</div>
+        </div>
+    }
+    <div id="name-and-picture">
+        <div id="name">
+            {{user.name}} {{user.last_name}}
+        </div>
+        <img id="profile-picture" src="../../assets/images/profile-pic.png" alt="">
+    </div>
+
+    <div id="win-loss-ratio">
+        <table id="win-loss-table">
+            <tr>
+                <th class="win-loss-data win-loss-border">Wins</th>
+                <th class="win-loss-data win-loss-border">Loses</th>
+                <th class="win-loss-data">Matches</th>
+            </tr>
+            <tr>
+                <td class="win-loss-data win-loss-border">{{user.wins}}</td>
+                <td class="win-loss-data win-loss-border">{{user.loses}}</td>
+                <td class="win-loss-data">{{user.wins + user.loses}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="player-info">
+        <div class="player-info-element">
+            <div class="player-info-label">PP list</div>
+            <div class="player-info-data">{{user.pp_points}}</div>
+        </div>
+
+        <div class="player-info-element">
+            <div class="player-info-label">League</div>
+            <div class="player-info-data">1</div>
+        </div>
+
+        <div class="player-info-element">
+            <div class="player-info-label">Points</div>
+            <div class="player-info-data">{{user.points}}</div>
+        </div>
+    </div>
+
+    <div id="graph-div">
+        <div style="text-align: center;">League progression</div>
+        <div style="display: flex; justify-content: center;">
+            <canvas id="graph">
+
+            </canvas>
+        </div>
+    </div>
+
+    @if (id == currentUser.id) {
+        <div id="available-to-play-div">
+            <div id="available-to-play-label">Available to play</div>
+            <div id="available-to-play-slider" (click)="toggleAvailability()" 
+            [style]="{'border': currentUser.availableToPlay ? '2px solid green' : '2px solid red'}">
+                <div id="not-available-to-play" 
+                [style]="{'background-color': !currentUser.availableToPlay ? 'red' : 'white'}">
+            </div>
+                <div id="available-to-play"
+                [style]="{'background-color': currentUser.availableToPlay ? 'green' : 'white'}">
+            </div>
+            </div>
+        </div>
+
+        <div id="player-preferences-div">
+            <div id="player-preferences-label">Player preferences</div>
+            <table id="preference-table">
+                <tr class="preference-table-row">
+                    <td class="preference-table-label">Favourite hand</td>
+                    <td>
+                        <select name="" id="" class="preference-table-select" 
+                            [(ngModel)]="currentUser.favouriteHand" (ngModelChange)="onSelectionChange($event)">
+                            <option value="right">right</option>
+                            <option value="left">left</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="preference-table-row">
+                    <td class="preference-table-label">Favourite match</td>
+                    <td>
+                        <select name="" id="" class="preference-table-select"
+                        [(ngModel)]="currentUser.favouriteMatch" (ngModelChange)="onSelectionChange($event)">
+                            <option value="competitive">competitive</option>
+                            <option value="friendly">friendly</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="preference-table-row">
+                    <td class="preference-table-label">Favourite court</td>
+                    <td>
+                        <select name="" id="" class="preference-table-select"
+                        [(ngModel)]="currentUser.favouriteCourt" (ngModelChange)="onSelectionChange($event)">
+                            @for(court of courts; track court.id) {
+                                <option [value]="court.id">{{court.name}}</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+</div>

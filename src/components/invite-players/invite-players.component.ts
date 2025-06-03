@@ -68,7 +68,7 @@ export class InvitePlayersComponent {
       }
     }
 
-    if (this.idx < this.courtReservation.player_ids.length) {
+    if (this.idx < this.courtReservation.player_ids.length && this.idx != -1) {
       this.courtReservation.player_ids[this.idx] = i;
       this.localStorageService.setItem("courtReservation", this.courtReservation);
       if (this.idx + 1 < this.courtReservation.player_ids.length &&

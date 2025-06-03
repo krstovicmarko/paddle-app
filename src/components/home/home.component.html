@@ -1,5 +1,14 @@
 
 <div id="book-a-court">
+    @if (upcomingMatch != undefined) {
+        <div id="upcoming-match">
+            <div>
+                <div>
+                    Match day: bla bla bla
+                </div>
+            </div>
+        </div>
+    }
     <div id="book-a-court-text">Book a court</div>
     <div id="courts">
         @for (court of this.courts; track court.name) {

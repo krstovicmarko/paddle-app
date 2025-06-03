@@ -3,6 +3,14 @@
         <div class="confirmation-message">
             @if (type == 'booked') {
                 You booked your match
+            } @else {
+                @if (type == 'invite-player') {
+                    You sent invite request
+                } @else {
+                    @if (type == 'add-friend') {
+                        You sent friend request
+                    }
+                }
             }
         </div>
         <div id="logo-img-div">

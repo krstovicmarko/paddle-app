@@ -5,6 +5,9 @@ export class CourtReservation {
     time: number;
     duration: number;
     player_ids: number[];
+    started: boolean = false;
+    finished: boolean = false;
+    sets: number[] = [];
 
 
     constructor(court_id: number, court_num: number, date: string, time: number, player_ids: number[], duration: number) {
@@ -13,7 +16,7 @@ export class CourtReservation {
         this.date = date;
         this.time = time;
         this.player_ids = player_ids;
-        this.duration = 0;
+        this.duration = duration;
     }
 
 }

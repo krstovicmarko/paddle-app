@@ -1,6 +1,8 @@
 import { Component, output } from '@angular/core';
 import { RouterService } from '../../services/router.service';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { User } from '../../model/user';
 
 @Component({
   selector: 'app-footer',
@@ -11,12 +13,17 @@ import { Router } from '@angular/router';
 })
 export class FooterComponent {
 
-  constructor(private routerService: RouterService) {}
+  constructor(private routerService: RouterService, private localStorageService: LocalStorageService) {}
   goToUnimplemented() {
     this.routerService.navigateTo('unimplemented');
   }
 
   goToHome() {
     this.routerService.navigateTo('home');
+  }
+
+  goToProfile() {
+    let user = this.localStorageService.getItem("currentUser") as User;
+    this.routerService.navigateTo("profile/" + user.id);
   }
 }

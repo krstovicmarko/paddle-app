@@ -29,6 +29,7 @@
     font-weight: bold;
     font-family: sans-serif;
     display: flex;
+    justify-content: space-between;
 }
 
 .footer-icon {
@@ -41,7 +42,7 @@
 
 #back-button {
     height: 3vh;
-    width: 15vw;
+    width: 10vw;
     object-fit: contain;
     padding-right: 3vw;
 }
