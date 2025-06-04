@@ -8,6 +8,7 @@ import { ConfirmMatchComponent } from '../components/confirm-match/confirm-match
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 import { SearchPlayersComponent } from '../components/search-players/search-players.component';
 import { NotificationComponent } from '../components/notification/notification.component';
+import { MatchHistoryComponent } from '../components/match-history/match-history.component';
 
 export const routes: Routes = [
     {path: 'home', component:HomeComponent},
@@ -19,4 +20,5 @@ export const routes: Routes = [
     {path: 'confirmation/:type', component:ConfirmationComponent},
     {path: 'search-players/:idx', component:SearchPlayersComponent},
     {path: 'notification', component:NotificationComponent},
+    {path: 'match-history', component:MatchHistoryComponent},
 ];

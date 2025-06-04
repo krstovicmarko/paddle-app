@@ -4,6 +4,7 @@ import { Court } from '../../model/court';
 import { RouterService } from '../../services/router.service';
 import { Gender, User } from '../../model/user';
 import { Friends } from '../../model/friends';
+import { CourtReservation } from '../../model/court-reservation';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,7 @@ import { Friends } from '../../model/friends';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-  constructor(private routerService: RouterService) {}
+  constructor(private routerService: RouterService) { }
   courts: Court[] = [];
   ngOnInit(): void {
     let localStorageService: LocalStorageService = new LocalStorageService();
@@ -21,13 +22,13 @@ export class HomeComponent implements OnInit {
       localStorageService.setItem("pages", ["home", "unimplemented"]);
     }
     // if (!localStorageService.exists("previousPages")) {
-      localStorageService.setItem("previousPages", []);
+    localStorageService.setItem("previousPages", []);
     // }
 
     // if (!localStorageService.exists("currentPage")) {
-      localStorageService.setItem("currentPage", "home");
+    localStorageService.setItem("currentPage", "home");
     // }
-    if (!localStorageService.exists("courts")){
+    if (!localStorageService.exists("courts")) {
       localStorageService.setItem("courts",
         [
           new Court(0, "Padel court 1", "../../assets/images/padel-court-1.png", "Beogradska 63", 8, 18, 4000, 3),
@@ -57,7 +58,7 @@ export class HomeComponent implements OnInit {
     }
 
     if (!localStorageService.exists("currentUser")) {
-      localStorageService.setItem("currentUser",(localStorageService.getItem("users") as User[])[0]);
+      localStorageService.setItem("currentUser", (localStorageService.getItem("users") as User[])[0]);
     }
 
     if (!localStorageService.exists("friends")) {
@@ -75,6 +76,50 @@ export class HomeComponent implements OnInit {
     }
 
     this.courts = localStorageService.getItem("courts") as Court[];
+
+    const sampleMatches: CourtReservation[] = [
+      new CourtReservation(1, 1, '2023-06-15', 18, [0, 1, 2, 3], 2),
+      new CourtReservation(2, 2, '2023-06-10', 20, [0, 4], 1),
+      new CourtReservation(0, 0, '2023-05-28', 16, [5, 6, 7, 8], 2),
+      new CourtReservation(1, 1, '2023-05-20', 19, [0, 9, 10, 1], 2),
+      new CourtReservation(1, 1, '2024-06-25', 18, [0, 1, 2, 3], 2),
+      new CourtReservation(2, 2, '2024-01-22', 20, [0, 4], 1),
+      new CourtReservation(0, 0, '2025-01-28', 16, [5, 6, 7, 8], 2),
+      new CourtReservation(1, 1, '2025-02-20', 19, [0, 9, 10, 1], 2),
+      new CourtReservation(0, 0, '2025-01-23', 16, [0, 1, 3, 2], 2),
+      new CourtReservation(1, 1, '2025-03-20', 19, [0, 9, 10, 1], 2),
+
+      new CourtReservation(2, 2, '2026-07-11', 19, [0, 6, 2, 3], 2),
+      new CourtReservation(1, 1, '2026-07-15', 17, [5, 1], 1),
+      new CourtReservation(0, 0, '2025-12-20', 20, [0, 10], 1),
+      new CourtReservation(2, 2, '2025-09-25', 18, [1, 0, 9, 2], 2),
+      new CourtReservation(1, 2, '2025-06-15', 19, [2, 0, 9, 3], 2),
+      new CourtReservation(0, 2, '2025-09-21', 20, [1, 4, 0, 5], 2),
+      new CourtReservation(2, 2, '2025-12-30', 18, [7, 0, 6, 2], 2)
+    ];
+
+    sampleMatches[0].finished = true;
+    sampleMatches[0].sets = [6, 3];
+    sampleMatches[1].finished = true;
+    sampleMatches[1].sets = [4, 6];
+    sampleMatches[2].finished = true;
+    sampleMatches[2].sets = [7, 5];
+    sampleMatches[3].finished = true;
+    sampleMatches[3].sets = [2, 5];
+    sampleMatches[4].finished = true;
+    sampleMatches[4].sets = [6, 3];
+    sampleMatches[5].finished = true;
+    sampleMatches[5].sets = [4, 6];
+    sampleMatches[6].finished = true;
+    sampleMatches[6].sets = [7, 5];
+    sampleMatches[7].finished = true;
+    sampleMatches[7].sets = [2, 5];
+    sampleMatches[8].finished = true;
+    sampleMatches[8].sets = [7, 5];
+    sampleMatches[9].finished = true;
+    sampleMatches[9].sets = [2, 5];
+
+    localStorageService.setItem("courtReservations", sampleMatches);
 
   }
 
