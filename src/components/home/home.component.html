@@ -1,12 +1,44 @@
 
 <div id="book-a-court">
     @if (upcomingMatch != undefined) {
+        <div id="upcoming-match-time-left">
+            {{getUpcomingMatchTimeString()}}
+        </div>
         <div id="upcoming-match">
-            <div>
+            <div id="upcoming-match-card">
                 <div>
-                    Match day: bla bla bla
+                    <span class="match-time-label">Match day:</span> <span class="match-time">{{getUpcomingMatchDate()}}</span>
+                </div>
+                <div>
+                    <span class="match-time-label">Court:</span> <span class="match-time">{{getUpcomingMatchCourt()}}</span>
+                </div>
+                <div id="label-opponents">
+                    Team 1 vs Team 2
+                </div>
+                <div id="players">
+                    <div class="opposing-div">
+                        <div>
+                            1. <span class="choose-player-span">{{playerName(0)}}</span>
+                        </div>
+                        <div>
+                            1. <span class="choose-player-span">{{playerName(1)}}</span>
+                        </div>
+                    </div>
+                    @if(upcomingMatch.player_ids.length == 4) {
+                        <div class="opposing-div">
+                            <div>
+                                2. <span class="choose-player-span">{{playerName(2)}}</span>
+                            </div>
+                            <div>
+                                2. <span class="choose-player-span">{{playerName(3)}}</span>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
+        </div>
+        <div id="start-match-div">
+            <div id="start-match" (click)="goToYourMatch()">Start match</div>
         </div>
     }
     <div id="book-a-court-text">Book a court</div>

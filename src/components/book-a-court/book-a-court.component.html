@@ -81,7 +81,57 @@
                 Available matches
             </div>
             <div id="available-matches-slots">
-                No available matches currently!
+                @if(availableMatches.length == 0) {
+                    No available matches currently!
+                } @else {
+                    <div id="available-matches">
+                        @for(availableMatch of availableMatches; track availableMatch;) {
+                            <div class="available-match">
+                                <div class="date-and-type">
+                                    <span class="date-span">{{getAvailableMatchDate(availableMatch)}}</span>
+                                    <span class="time-span">{{getAvailableMatchTime(availableMatch)}}</span>
+                                    <span class="type-span">Competitive</span>
+                                </div>
+                                <div class="match-players-div">
+                                    <div class="team">
+                                        <div class="player">
+                                            <div class="player-picture"></div>
+                                            <div class="player-name">{{getPlayerOfAvailableMatch(availableMatch, 0, 0)}}</div>
+                                            <div class="player-number">1</div>
+                                        </div>
+                                        <div class="player">
+                                            <div class="player-picture"></div>
+                                            <div class="player-name">{{getPlayerOfAvailableMatch(availableMatch, 0, 1)}}</div>
+                                            <div class="player-number">2</div>
+                                        </div>
+                                    </div>
+                                    <div class="team">
+                                        <div class="player">
+                                            <div class="player-picture"></div>
+                                            <div class="player-name">{{getPlayerOfAvailableMatch(availableMatch, 1, 0)}}</div>
+                                            <div class="player-number">1</div>
+                                        </div>
+                                        <div class="player">
+                                            <div class="player-picture"></div>
+                                            <div class="player-name">{{getPlayerOfAvailableMatch(availableMatch, 1, 1)}}</div>
+                                            <div class="player-number">2</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="available-match-court-info-and-button">
+                                    <div class="available-match-court">
+                                        <img class="location-img" src="../../assets/images/location.png" alt="">
+                                        <div>{{getClubName(availableMatch.court_id)}}</div>
+                                    </div>
+                                    <div class="available-match-price-and-time" (click)="enterMatch(availableMatch)">
+                                        <div>{{getPriceOfMatch(availableMatch)}}rsd</div>
+                                        <div>{{availableMatch.duration * 60}}min</div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
             </div>
         </div>
     </div>

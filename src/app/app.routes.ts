@@ -10,6 +10,7 @@ import { SearchPlayersComponent } from '../components/search-players/search-play
 import { AvailablePlayersComponent } from '../components/available-players/available-players.component';
 import { ProfileComponent } from '../components/profile/profile.component';
 import { EditProfileComponent } from '../components/edit-profile/edit-profile.component';
+import { YourMatchComponent } from '../components/your-match/your-match.component';
 
 export const routes: Routes = [
     {path: 'home', component:HomeComponent},
@@ -23,4 +24,5 @@ export const routes: Routes = [
     {path: 'available-players/:id/:idx', component:AvailablePlayersComponent},
     {path: 'profile/:id', component:ProfileComponent},
     {path: 'edit-profile', component:EditProfileComponent},
+    {path: 'your-match', component:YourMatchComponent},
 ];

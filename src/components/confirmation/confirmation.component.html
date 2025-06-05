@@ -1,5 +1,6 @@
 <div id="confirmation">
     <div>
+        @if (type != 'win' && type != 'loss') {
         <div class="confirmation-message">
             @if (type == 'booked') {
                 You booked your match
@@ -17,5 +18,27 @@
             <img id="logo-img" src="../../assets/images/logo.png" alt="">
         </div>
         <div class="confirmation-message">PadelPoint</div>
+        } @else {
+            <div id="win-loss-div">
+                @if (type == 'win') {
+                    <span class="msg-span">Congrats</span>
+                    <img id="confetti-img" src="../../assets/images/confetti.png" alt="">
+                } @else {
+                    <span class="msg-span">
+                        You'll get them next time
+                    </span>
+                }
+            </div>
+            <div id="points-gained">
+                <div class="stats-gained">Points gained: {{pointsGained}}</div>
+                <div class="stats-gained">
+                    Your ranking: {{currentUser.ranking - ranksGained}}
+                    @if (ranksGained > 0) {
+                        <img id="arrow-img" src="../../assets/images/arrow-up.png" alt="">
+                        <span style="font-size: 2.0vh;">+{{ranksGained}}</span>
+                    }
+                </div>
+            </div>
+        }
     </div>
 </div>

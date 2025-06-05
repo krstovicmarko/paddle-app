@@ -28,39 +28,60 @@
         }
     </div>
     
-    <div id="match-info-div">
+    @if (!yourMatchComponent || !courtReservation.started) {
+        <div id="match-info-div">
 
-        <div class="match-info">
-            <span class="match-info-span">Match info:</span>
-            @if(selectedMatchType == 'double') {
-                <span>Double</span>
-            } @else {
-                <span>Single</span>
-            }
+            <div class="match-info">
+                <span class="match-info-span">Match info:</span>
+                @if(selectedMatchType == 'double') {
+                    <span>Double</span>
+                } @else {
+                    <span>Single</span>
+                }
+            </div>
+            <div class="match-info">
+                <span class="match-info-span">Match day:</span>
+                <span>{{getDate()}}</span>
+            </div>
+
+            <div class="match-info">
+                <span class="match-info-span">Time:</span>
+                <span>{{getTime()}}</span>
+            </div>
+
+            <div class="match-info">
+                <span class="match-info-span">Court number:</span>
+                <span>{{getCourtNumber()}}</span>
+            </div>
+
+            <div class="match-info">
+                <span class="match-info-span">Club:</span>
+                <span>{{getClub()}}</span>
+            </div>
+
         </div>
-        <div class="match-info">
-            <span class="match-info-span">Match day:</span>
-            <span>{{getDate()}}</span>
+    } @else {
+        <div id="score-div">
+            <div id="score-label-div">Score</div>
+            <table id="match-table">
+                <tr>
+                    <td class="match-td">Team 1</td>
+                    <td class="match-td"><input class="match-input" type="text" [(ngModel)]="points[0]" (blur)="onInputDone(0)" (click)="onInputClick(0)"></td>
+                    <td class="match-td"><input class="match-input" type="text" [(ngModel)]="points[2]" (blur)="onInputDone(2)" (click)="onInputClick(2)"></td>
+                    <td class="match-td"><input class="match-input" type="text" [(ngModel)]="points[4]" (blur)="onInputDone(4)" (click)="onInputClick(4)"></td>
+                </tr>
+                <tr>
+                    <td class="match-td">Team 2</td>
+                    <td class="match-td"><input class="match-input" type="text" [(ngModel)]="points[1]" (blur)="onInputDone(1)" (click)="onInputClick(1)"></td>
+                    <td class="match-td"><input class="match-input" type="text" [(ngModel)]="points[3]" (blur)="onInputDone(3)" (click)="onInputClick(3)"></td>
+                    <td class="match-td"><input class="match-input" type="text" [(ngModel)]="points[5]" (blur)="onInputDone(5)" (click)="onInputClick(5)"></td>
+                </tr>
+            </table>
         </div>
-
-        <div class="match-info">
-            <span class="match-info-span">Time:</span>
-            <span>{{getTime()}}</span>
-        </div>
-
-        <div class="match-info">
-            <span class="match-info-span">Court number:</span>
-            <span>{{getCourtNumber()}}</span>
-        </div>
-
-        <div class="match-info">
-            <span class="match-info-span">Club:</span>
-            <span>{{getClub()}}</span>
-        </div>
-
-    </div>
-
+    }
     <div id="confirm-match-button-div">
-        <div id="confirm-match-button" (click)="confirmMatch()">Confirm match</div>
+        <div id="confirm-match-button" (click)="!yourMatchComponent ? confirmMatch() : courtReservation.started ? endMatch() : startMatch()">
+            {{ !yourMatchComponent ? 'Confirm match' : courtReservation.started ? 'End match' : 'Start match'}}
+        </div>
     </div>
 </div>
