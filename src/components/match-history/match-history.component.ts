@@ -83,7 +83,24 @@ export class MatchHistoryComponent implements OnInit {
   }
 
   determineResult(reservation: CourtReservation): 'W' | 'L' {
-    return reservation.sets[0] > reservation.sets[1] ? 'W' : 'L';
+    let myTeam = 0;
+    let currentUser: User = this.localStorageService.getItem("currentUser") as User;
+    for (let i = 0; i < reservation.player_ids.length; i++) {
+      if(currentUser.id == reservation.player_ids[i])
+      {
+        myTeam = i % 2;
+      }
+    }
+
+    let opponentTeam = myTeam ^ 1;
+    let setsWon = 0;
+
+    for (let i = 0; i < 3; i++) {
+      if (reservation.sets[i * 2 + myTeam] > reservation.sets[i * 2 + opponentTeam])
+        setsWon += 1;
+    }
+
+    return setsWon >= 2 ? 'W' : 'L';
   }
 
   private getMyTeamNames(players: User[]): string {
@@ -96,16 +113,16 @@ export class MatchHistoryComponent implements OnInit {
     let teammateIndex: number = 0
     switch (indexCurrentUser) {
       case 0:
-        teammateIndex = 1
+        teammateIndex = 2
         break
       case 1:
-        teammateIndex = 0
-        break
-      case 2:
         teammateIndex = 3
         break
+      case 2:
+        teammateIndex = 0
+        break
       case 3:
-        teammateIndex = 2
+        teammateIndex = 1
         break
     }
     let teammateName = players.find(p => p.id === players[teammateIndex].id)?.name + ' ' + players.find(p => p.id === players[teammateIndex].id)?.last_name.at(0) + '.';
@@ -125,16 +142,16 @@ export class MatchHistoryComponent implements OnInit {
     let opponentIndices: number[] = []
     switch (indexCurrentUser) {
       case 0:
-        opponentIndices = [2, 3]
+        opponentIndices = [1, 3]
         break
       case 1:
-        opponentIndices = [2, 3]
+        opponentIndices = [0, 2]
         break
       case 2:
-        opponentIndices = [0, 1]
+        opponentIndices = [1, 3]
         break
       case 3:
-        opponentIndices = [0, 1]
+        opponentIndices = [0, 2]
         break
     }
     let opponentIds: number[] = players.map(p => p.id).filter((_, index) => opponentIndices.includes(index));

@@ -64,3 +64,33 @@
     color: #dfff08;
     border-radius: 15px;
 }
+
+#score-div {
+    padding-top: 10vh;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#score-label-div {
+    font-size: 2.3vh;
+}
+
+#match-table {
+    margin-left: 10vw;
+    margin-right: 10vw;
+    border-collapse: collapse;
+}
+
+.match-td {
+    min-width: 8vw;
+    border: 1px solid gray;
+    font-size: 2vh;
+}
+
+.match-input {
+    text-align: center;
+    border: none;
+    width: 8vw;
+}

@@ -28,9 +28,12 @@ export class BookACourtComponent {
   chosenDate: string = "";
   selectedMatchType: string = "single";
   courtReservation: CourtReservation = new CourtReservation(-1, -1, "", -1, [-1, -1], 0);
+  courtReservations: CourtReservation[] = this.localStorageService.getItem("courtReservations") as CourtReservation[];
   currentUser: User = this.localStorageService.getItem("currentUser") as User;
   users: User[] = this.localStorageService.getItem("users") as User[];
   canConfirmMatch: boolean = false;
+  availableMatches: CourtReservation[] = [];
+  courts: Court[] = this.localStorageService.getItem("courts") as Court[];
 
   initCourtTimes() {
     this.courtTimes = Array.from(
@@ -40,6 +43,29 @@ export class BookACourtComponent {
       for (let i = 0; i < this.courtTimes.length; i++) {
       if (this.courtTimes[i].time.length != 5)
           this.courtTimes[i].time = "0" + this.courtTimes[i].time;
+    }
+  }
+
+  initAvailableMatches() {
+    let now = new Date();
+    for (let courtReservation of this.courtReservations) {
+      if (courtReservation.started || courtReservation.finished)
+        continue;
+
+      let hasEmptySpace = false;
+      let hasMe = false;
+      for (let i of courtReservation.player_ids) {
+        if (i == -1) {
+          hasEmptySpace = true;
+        } else if (i == this.currentUser.id) {
+          hasMe = true;      
+        }
+      }
+
+      if (hasMe || !hasEmptySpace)
+          continue;
+      
+      this.availableMatches.push(courtReservation);
     }
   }
 
@@ -74,6 +100,8 @@ export class BookACourtComponent {
         this.selectedMatchType = (this.localStorageService.getItem("courtReservation") as CourtReservation).player_ids.length == 2 
             ? 'single' : 'double';
       }
+
+      this.initAvailableMatches();
     });
 
   }
@@ -199,5 +227,75 @@ export class BookACourtComponent {
 
   confirmMatch() {
     this.routerService.navigateTo("confirm-match");
+  }
+
+  getAvailableMatchDate(availableMatch: CourtReservation) : string {
+    let date = new Date(availableMatch.date);
+
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+
+    let dayOfTheWeek = date.toLocaleDateString('en-US', { weekday: 'long'});
+
+
+    return `${dayOfTheWeek}, ${day}.${month}.${year}`
+  }
+
+  getAvailableMatchTime(avaialbleMatch: CourtReservation) : string {
+    return avaialbleMatch.time.toString().padStart(2, "0") + ":00";
+  }
+
+  getPlayerOfAvailableMatch(availableMatch: CourtReservation, team: number, order: number) {
+    team = availableMatch.player_ids.length == 4 ? 2 * team : team;
+    let id = availableMatch.player_ids[team + order];
+    if (id == -1)
+      return "Available";
+
+    let user = this.users.find((user) => user.id == id);
+
+    return user!.name;
+    
+  }
+
+  getClubName(id: number) {
+    let court = this.courts.find((c) => c.id == id);
+    return court!.name;
+  }
+
+  getPriceOfMatch(match: CourtReservation) {
+    let court = this.courts.find((c) => c.id == match.court_id);
+    return match.duration * court!.price_per_hour / match.player_ids.length;
+  }
+
+  enterMatch(availableMatch: CourtReservation) {
+    for (let i = 0; i < availableMatch.player_ids.length; i++) {
+      if (availableMatch.player_ids[i] == -1) {
+        availableMatch.player_ids[i] = this.currentUser.id;
+      }
+    }
+
+    for (let i = 0; i < this.availableMatches.length; i++) {
+      if (this.availableMatches[i].court_id == availableMatch.court_id &&
+          this.availableMatches[i].court_num == availableMatch.court_num &&
+          this.availableMatches[i].time == availableMatch.time
+      ) {
+        this.availableMatches[i] = this.availableMatches[this.availableMatches.length - 1];
+        this.availableMatches.pop();
+        break;
+      }
+    }
+
+    for (let i = 0; i < this.courtReservations.length; i++) {
+      if (this.courtReservations[i].court_id == availableMatch.court_id &&
+        this.courtReservations[i].court_num == availableMatch.court_num &&
+        this.courtReservations[i].time == availableMatch.time
+      ) {
+        this.courtReservations[i] = availableMatch;
+        this.localStorageService.setItem("courtReservations", this.courtReservations);
+        break;
+      }
+    }
+
   }
 }

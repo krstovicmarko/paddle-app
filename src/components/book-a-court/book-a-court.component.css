@@ -94,7 +94,7 @@
     appearance: none;
     -webkit-appereance: none;
     -moz-appereance: none;
-    background: #bde3ff;;
+    background: #bde3ff;
     border: 0px solid #ccc;
     border-radius: 10px;
     background-size: 1em;
@@ -152,4 +152,116 @@
     background-color: #016dbd;
     color: #dfff08;
     border-radius: 15px;
+}
+
+#available-matches {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.available-match {
+    align-self: center;
+    padding-top: 2vh;
+    margin-bottom: 2vh;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    padding-bottom: 2vh;
+    margin-right: 5vw;
+    background-color: #bde3ff;
+    border-radius: 15px;
+
+}
+
+.date-and-type {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.date-span {
+    padding-right: 3vw;
+    font-size: 2.1vh;
+}
+
+.time-span {
+    padding-right: 5vw;
+    font-size: 2.1vh;
+}
+
+.type-span {
+    font-size: 1.6vh;
+}
+
+.match-players-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.team {
+    padding-top: 2vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.player {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5vh;
+}
+
+.player-picture {
+    height: 5vh;
+    width: 5vh;
+    border: 1px solid black;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.player-name {
+    font-size: 1.3vh;
+    min-width: 16vw;
+    text-align: center;
+}
+
+.player-number {
+    background-color: #dfff08;
+    font-size: 1.3vh;
+    padding: 0.3vh;
+    border-radius: 5px;
+}
+
+.available-match-court-info-and-button {
+    margin-top: 1vh;
+    /* padding: 1vh; */
+    background-color: white;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.5vh;
+}
+
+.available-match-court {
+    display: flex;
+    flex-direction: row;
+}
+
+.location-img {
+    object-fit: contain;
+    height: 2vh;
+    width: 8vw;
+}
+
+.available-match-price-and-time {
+    padding: 1vh;
+    text-align: center;
+    border-radius: 15px;
+    background-color: #dcccff;
 }

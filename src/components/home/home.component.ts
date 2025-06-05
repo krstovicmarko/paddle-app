@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   courts: Court[] = [];
   upcomingMatch?: CourtReservation = undefined;
   currentUser?: User;
+  users?: User[];
   ngOnInit(): void {
     let localStorageService: LocalStorageService = this.localStorageService;
     if (!localStorageService.exists("pages")) {
@@ -59,11 +60,14 @@ export class HomeComponent implements OnInit {
       );
     }
 
+    this.users = localStorageService.getItem("users");
+
     if (!localStorageService.exists("currentUser")) {
       this.currentUser = (localStorageService.getItem("users") as User[])[0];
       localStorageService.setItem("currentUser", this.currentUser);
+    } else {
+      this.currentUser = localStorageService.getItem("currentUser") as User;
     }
-
     if (!localStorageService.exists("friends")) {
       localStorageService.setItem("friends", [
         new Friends(0, 0, 1),
@@ -76,14 +80,17 @@ export class HomeComponent implements OnInit {
 
     if (!localStorageService.exists("courtReservations")) {
       let date = new Date();
+      date = new Date(date.getTime() + (1000 * 60 * 60 * 24 * 2));
       let year = date.getFullYear();
       let month = date.getMonth() + 1;
-      let day = date.getDate() + 2;
+      let day = date.getDate();
+
 
       let court = (localStorageService.getItem("courts") as Court[])[0];
 
       localStorageService.setItem("courtReservations", [
-        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 2, [0, 1, 2, 3], 1)
+        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 2, [0, 1, 2, 3], 1),
+        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 4, [3, 4, 5, -1], 1)
       ]);
     }
 
@@ -114,25 +121,25 @@ export class HomeComponent implements OnInit {
     ];
 
     sampleMatches[0].finished = true;
-    sampleMatches[0].sets = [6, 3];
+    sampleMatches[0].sets = [6, 3, 6, 3, 6, 4];
     sampleMatches[1].finished = true;
-    sampleMatches[1].sets = [4, 6];
+    sampleMatches[1].sets = [4, 6, 7, 5, 6, 4];
     sampleMatches[2].finished = true;
-    sampleMatches[2].sets = [7, 5];
+    sampleMatches[2].sets = [7, 5, 4, 6, 2, 6];
     sampleMatches[3].finished = true;
-    sampleMatches[3].sets = [2, 5];
+    sampleMatches[3].sets = [2, 5, 4, 6, 7, 6];
     sampleMatches[4].finished = true;
-    sampleMatches[4].sets = [6, 3];
+    sampleMatches[4].sets = [6, 3, 4, 6, 6, 4];
     sampleMatches[5].finished = true;
-    sampleMatches[5].sets = [4, 6];
+    sampleMatches[5].sets = [4, 6, 2, 6, 3, 6];
     sampleMatches[6].finished = true;
-    sampleMatches[6].sets = [7, 5];
+    sampleMatches[6].sets = [7, 5, 7, 6, 3, 6];
     sampleMatches[7].finished = true;
-    sampleMatches[7].sets = [2, 5];
+    sampleMatches[7].sets = [2, 5, 3, 6, 4, 6];
     sampleMatches[8].finished = true;
-    sampleMatches[8].sets = [7, 5];
+    sampleMatches[8].sets = [7, 5, 6, 7, 4, 6];
     sampleMatches[9].finished = true;
-    sampleMatches[9].sets = [2, 5];
+    sampleMatches[9].sets = [2, 5, 7, 6, 6, 4];
 
     localStorageService.setItem("courtReservations", sampleMatches);
 
@@ -146,10 +153,125 @@ export class HomeComponent implements OnInit {
   getUpcomingMatch(): CourtReservation | undefined {
     let courtReservation = undefined;
     let courtReservations = this.localStorageService.getItem("courtReservations") as CourtReservation[];
-    let minYear = -1;
-    let minMonth = -1;
-    let minDay = -1;
+    let minYear = Infinity;
+    let minMonth = Infinity;
+    let minDay = Infinity;
+    let minHour = Infinity;
+    
+    for (let reservation of courtReservations) {
+      if (reservation.finished == true)
+          continue;
+      let players = reservation.player_ids;
+      for (let id of players) {
+        if (id == this.currentUser!.id) {
+          let date = reservation.date.split("-");
+          let year = Number(date[0]);
+          let month = Number(date[1]);
+          let day = Number(date[2]);
+          let hour = reservation.time;
+
+          if (year < minYear || (
+              year == minYear && (
+                month < minMonth || (
+                  month == minMonth && (
+                    day < minDay || (
+                      day == minDay &&
+                      hour < minHour
+                    )
+                  )
+                )
+              )
+          ))
+          {
+            courtReservation = reservation;
+            minDay = day;
+            minMonth = month;
+            minYear = year;
+            minHour = hour;
+          }
+
+          break;
+        }
+      }
+    }
+
     return courtReservation;
 
+  }
+
+  getUpcomingMatchDate(): string {
+    let date = this.upcomingMatch!.date.split('-');
+    let year = date[0];
+    let month = (Number(date[1])).toString().padStart(2, '0');
+    let day = date[2].padStart(2, '0');
+
+    return `${day}.${month}.${year}`;
+  }
+
+  getUpcomingMatchCourt(): string {
+    let court = this.courts.find((court) => this.upcomingMatch!.court_id == court.id);
+    return court!.name;
+  }
+
+  playerName(i: number): string {
+    let playerId = this.upcomingMatch!.player_ids[i];
+    if (playerId == this.currentUser!.id)
+        return "Me";
+    
+    let user = this.users!.find((user) => playerId == user.id);
+    return user!.name;
+  }
+
+  goToUnimplemented() {
+    this.routerService.navigateTo("unimplemented");
+  }
+
+  getUpcomingMatchTimeString() {
+    let months = [31,28,31,30,31,30,31,31,30,31,30,31]
+    let date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+
+    let matchDate = this.upcomingMatch!.date.split("-");
+    let matchYear = Number(matchDate[0]);
+    let matchMonth = Number(matchDate[1]);
+    let matchDay = Number(matchDate[2]);
+    let matchHour = this.upcomingMatch!.time;
+
+    if (year < matchYear) {
+      if (year == matchYear - 1) {
+        return `Your match starts in ${matchMonth + 12 - month} months`; 
+      } else {
+        return "Your match won't happen soon";
+      }
+    } else if (month < matchMonth) {
+      if (month == matchMonth - 1) {
+        return `Your match starts in ${matchDay + months[month - 1] - day}`;
+      } else {
+        return `Your match starts in ${matchMonth - month} months`;
+      }
+    } else if (day < matchDay) {
+      if (day == matchDay - 1) {
+        return `Your match starts in ${matchHour + 24 - hour} hours`;
+      } else {
+        return `Your match starts in ${matchDay - day} days`;
+      }
+    } else if (hour < matchHour) {
+      if (hour == matchHour - 1) {
+        return `Your match starts in ${60 - minute} minutes`;
+      } else {
+        return `Your match starts in ${matchHour - hour} hours`;
+      }
+    } else {
+      return "Your match starts soon!";
+    }
+  }
+
+  goToYourMatch() {
+    this.localStorageService.setItem("match", this.upcomingMatch!);
+    this.routerService.navigateTo("your-match");
   }
 }

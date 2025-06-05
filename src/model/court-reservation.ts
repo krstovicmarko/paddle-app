@@ -7,8 +7,8 @@ export class CourtReservation {
     player_ids: number[];
     started: boolean = false;
     finished: boolean = false;
-    sets: number[] = [];
     points: number = 0;
+    sets: number[] = [-1, -1, -1, -1, -1, -1];
 
 
     constructor(court_id: number, court_num: number, date: string, time: number, player_ids: number[], duration: number) {
