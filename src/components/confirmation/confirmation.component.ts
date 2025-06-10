@@ -38,7 +38,7 @@ export class ConfirmationComponent {
         }
 
         this.currentUser.ranking -= this.ranksGained;
-        this.currentUser.points += this.pointsGained;
+        this.currentUser.pp_points += this.pointsGained;
         this.localStorageService.setItem("currentUser", this.currentUser);
         for (let i = 0; i < this.users.length; i++) {
           if (this.currentUser.id == this.users[i].id) {

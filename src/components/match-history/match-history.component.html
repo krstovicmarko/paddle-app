@@ -23,7 +23,7 @@
                         <div class="col-6">
                             <div class="court">{{match.court}}</div>
                             <div class="match-type">{{match.matchType}}</div>
-                            <div class="score">{{match.score}}</div>
+                            <div class="score">{{ match.result == "W" ? match.score : 0}}</div>
                         </div>
                         <div class="col-3">
                             <div class="result-badge" [class.W]="match.result === 'W'" [class.L]="match.result === 'L'">

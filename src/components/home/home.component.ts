@@ -78,72 +78,71 @@ export class HomeComponent implements OnInit {
       ]);
     }
 
-    if (!localStorageService.exists("courtReservations")) {
-      let date = new Date();
-      date = new Date(date.getTime() + (1000 * 60 * 60 * 24 * 2));
-      let year = date.getFullYear();
-      let month = date.getMonth() + 1;
-      let day = date.getDate();
-
-
-      let court = (localStorageService.getItem("courts") as Court[])[0];
-
-      localStorageService.setItem("courtReservations", [
-        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 2, [0, 1, 2, 3], 1),
-        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 4, [3, 4, 5, -1], 1)
-      ]);
-    }
 
     if (!localStorageService.exists("friendRequests")) {
       localStorageService.setItem("friendRequests", []);
     }
     this.courts = localStorageService.getItem("courts") as Court[];
 
-    const sampleMatches: CourtReservation[] = [
-      new CourtReservation(1, 1, '2023-06-15', 18, [0, 1, 2, 3], 2),
-      new CourtReservation(2, 2, '2023-06-10', 20, [0, 4], 1),
-      new CourtReservation(0, 0, '2023-05-28', 16, [5, 6, 7, 8], 2),
-      new CourtReservation(1, 1, '2023-05-20', 19, [0, 9, 10, 1], 2),
-      new CourtReservation(1, 1, '2024-06-25', 18, [0, 1, 2, 3], 2),
-      new CourtReservation(2, 2, '2024-01-22', 20, [0, 4], 1),
-      new CourtReservation(0, 0, '2025-01-28', 16, [5, 6, 7, 8], 2),
-      new CourtReservation(1, 1, '2025-02-20', 19, [0, 9, 10, 1], 2),
-      new CourtReservation(0, 0, '2025-01-23', 16, [0, 1, 3, 2], 2),
-      new CourtReservation(1, 1, '2025-03-20', 19, [0, 9, 10, 1], 2),
 
-      new CourtReservation(2, 2, '2026-07-11', 19, [0, 6, 2, 3], 2),
-      new CourtReservation(1, 1, '2026-07-15', 17, [5, 1], 1),
-      new CourtReservation(0, 0, '2025-12-20', 20, [0, 10], 1),
-      new CourtReservation(2, 2, '2025-09-25', 18, [1, 0, 9, 2], 2),
-      new CourtReservation(1, 2, '2025-06-15', 19, [2, 0, 9, 3], 2),
-      new CourtReservation(0, 2, '2025-09-21', 20, [1, 4, 0, 5], 2),
-      new CourtReservation(2, 2, '2025-12-30', 18, [7, 0, 6, 2], 2)
-    ];
+    if (!localStorageService.exists("courtReservations")) {
+      let date = new Date();
+      date = new Date(date.getTime() + (1000 * 60 * 60 * 24 * 2));
+      let year = date.getFullYear();
+      let month = (date.getMonth() + 1).toString().padStart(2, "0");
+      let day = date.getDate().toString().padStart(2, "0");
 
-    sampleMatches[0].finished = true;
-    sampleMatches[0].sets = [6, 3, 6, 3, 6, 4];
-    sampleMatches[1].finished = true;
-    sampleMatches[1].sets = [4, 6, 7, 5, 6, 4];
-    sampleMatches[2].finished = true;
-    sampleMatches[2].sets = [7, 5, 4, 6, 2, 6];
-    sampleMatches[3].finished = true;
-    sampleMatches[3].sets = [2, 5, 4, 6, 7, 6];
-    sampleMatches[4].finished = true;
-    sampleMatches[4].sets = [6, 3, 4, 6, 6, 4];
-    sampleMatches[5].finished = true;
-    sampleMatches[5].sets = [4, 6, 2, 6, 3, 6];
-    sampleMatches[6].finished = true;
-    sampleMatches[6].sets = [7, 5, 7, 6, 3, 6];
-    sampleMatches[7].finished = true;
-    sampleMatches[7].sets = [2, 5, 3, 6, 4, 6];
-    sampleMatches[8].finished = true;
-    sampleMatches[8].sets = [7, 5, 6, 7, 4, 6];
-    sampleMatches[9].finished = true;
-    sampleMatches[9].sets = [2, 5, 7, 6, 6, 4];
 
-    localStorageService.setItem("courtReservations", sampleMatches);
+      let court = (localStorageService.getItem("courts") as Court[])[0];
 
-    this.upcomingMatch = this.getUpcomingMatch();
+      const sampleMatches: CourtReservation[] = [
+        new CourtReservation(1, 1, '2023-06-15', 18, [0, 1, 2, 3], 2),
+        new CourtReservation(2, 2, '2023-06-10', 20, [0, 4], 1),
+        new CourtReservation(0, 0, '2023-05-28', 16, [5, 6, 7, 8], 2),
+        new CourtReservation(1, 1, '2023-05-20', 19, [0, 9, 10, 1], 2),
+        new CourtReservation(1, 1, '2024-06-25', 18, [0, 1, 2, 3], 2),
+        new CourtReservation(2, 2, '2024-01-22', 20, [0, 4], 1),
+        new CourtReservation(0, 0, '2025-01-28', 16, [5, 6, 7, 8], 2),
+        new CourtReservation(1, 1, '2025-02-20', 19, [0, 9, 10, 1], 2),
+        new CourtReservation(0, 0, '2025-01-23', 16, [0, 1, 3, 2], 2),
+        new CourtReservation(1, 1, '2025-03-20', 19, [0, 9, 10, 1], 2),
+
+        new CourtReservation(2, 2, '2026-07-11', 19, [0, 6, 2, 3], 2),
+        new CourtReservation(1, 1, '2026-07-15', 17, [5, 1], 1),
+        new CourtReservation(0, 0, '2025-12-20', 20, [0, 10], 1),
+        new CourtReservation(2, 2, '2025-09-25', 18, [1, 0, 9, 2], 2),
+        new CourtReservation(1, 2, '2025-07-20', 19, [2, 0, 9, 3], 2),
+        new CourtReservation(0, 2, '2025-09-21', 20, [1, 4, 0, 5], 2),
+        new CourtReservation(2, 2, '2025-12-30', 18, [7, 0, 6, 2], 2),
+        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 2, [0, 1, 2, 3], 1),
+        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 4, [3, 4, 5, -1], 1)
+      ];
+
+      sampleMatches[0].finished = true;
+      sampleMatches[0].sets = [6, 3, 6, 3, 6, 4];
+      sampleMatches[1].finished = true;
+      sampleMatches[1].sets = [4, 6, 7, 5, 6, 4];
+      sampleMatches[2].finished = true;
+      sampleMatches[2].sets = [7, 5, 4, 6, 2, 6];
+      sampleMatches[3].finished = true;
+      sampleMatches[3].sets = [2, 5, 4, 6, 7, 6];
+      sampleMatches[4].finished = true;
+      sampleMatches[4].sets = [6, 3, 4, 6, 6, 4];
+      sampleMatches[5].finished = true;
+      sampleMatches[5].sets = [4, 6, 2, 6, 3, 6];
+      sampleMatches[6].finished = true;
+      sampleMatches[6].sets = [7, 5, 7, 6, 3, 6];
+      sampleMatches[7].finished = true;
+      sampleMatches[7].sets = [2, 5, 3, 6, 4, 6];
+      sampleMatches[8].finished = true;
+      sampleMatches[8].sets = [7, 5, 6, 7, 4, 6];
+      sampleMatches[9].finished = true;
+      sampleMatches[9].sets = [2, 5, 7, 6, 6, 4];
+
+      localStorageService.setItem("courtReservations", sampleMatches);
+    }
+
+      this.upcomingMatch = this.getUpcomingMatch();
   }
 
   goToBookACourt(id: number) {
@@ -157,13 +156,21 @@ export class HomeComponent implements OnInit {
     let minMonth = Infinity;
     let minDay = Infinity;
     let minHour = Infinity;
-    
+    let nowDate = new Date();
+
     for (let reservation of courtReservations) {
       if (reservation.finished == true)
           continue;
+      let reservationDate = new Date(reservation.date);
+      if (reservationDate < nowDate)
+        continue;
+
       let players = reservation.player_ids;
       for (let id of players) {
         if (id == this.currentUser!.id) {
+          
+
+
           let date = reservation.date.split("-");
           let year = Number(date[0]);
           let month = Number(date[1]);
@@ -249,7 +256,7 @@ export class HomeComponent implements OnInit {
       }
     } else if (month < matchMonth) {
       if (month == matchMonth - 1) {
-        return `Your match starts in ${matchDay + months[month - 1] - day}`;
+        return `Your match starts in ${matchDay + months[month - 1] - day} days`;
       } else {
         return `Your match starts in ${matchMonth - month} months`;
       }

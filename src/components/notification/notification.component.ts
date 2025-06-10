@@ -21,6 +21,7 @@ export class NotificationComponent {
     private localStorageService: LocalStorageService
   ) { }
 
+  upcomingMatchCourtReservation?: CourtReservation;
   upcomingMatch: MatchDisplay = {
     date: '',
     time: '',
@@ -67,6 +68,7 @@ export class NotificationComponent {
 
 
     const closestReservation = upcomingReservations[0];
+    this.upcomingMatchCourtReservation = closestReservation;
     console.log(closestReservation);
     const players = await this.getPlayersInfo(closestReservation.player_ids);
 
@@ -101,16 +103,16 @@ export class NotificationComponent {
     let teammateIndex: number = 0
     switch (indexCurrentUser) {
       case 0:
-        teammateIndex = 1
+        teammateIndex = 2
         break
       case 1:
-        teammateIndex = 0
-        break
-      case 2:
         teammateIndex = 3
         break
+      case 2:
+        teammateIndex = 0
+        break
       case 3:
-        teammateIndex = 2
+        teammateIndex = 1
         break
     }
     let teammateName = players.find(p => p.id === players[teammateIndex].id)?.name + ' ' + players.find(p => p.id === players[teammateIndex].id)?.last_name.at(0) + '.';
@@ -136,16 +138,16 @@ export class NotificationComponent {
     let opponentIndices: number[] = []
     switch (indexCurrentUser) {
       case 0:
-        opponentIndices = [2, 3]
+        opponentIndices = [1, 3]
         break
       case 1:
-        opponentIndices = [2, 3]
+        opponentIndices = [0, 2]
         break
       case 2:
-        opponentIndices = [0, 1]
+        opponentIndices = [1, 3]
         break
       case 3:
-        opponentIndices = [0, 1]
+        opponentIndices = [0, 2]
         break
     }
     let opponentIds: number[] = players.map(p => p.id).filter((_, index) => opponentIndices.includes(index));
@@ -157,5 +159,8 @@ export class NotificationComponent {
 
   }
 
-
+  startMatch() {
+    this.localStorageService.setItem("match", this.upcomingMatchCourtReservation!);
+    this.routerService.navigateTo("your-match");
+  }
 }

@@ -62,7 +62,7 @@
                 <div id="timeslots">
                     @for(time of this.courtTimes; track time) {
                         <div class="timeslot" (click)="pickTime(time.time)" 
-                            [style]="{'background-color': time.availability == 2 ? '#dfff08' : '#f9f9f9'}">
+                            [style]="{'background-color': time.availability == 2 ? '#dfff08' : time.availability == 1 ? '#f9f9f9' : '#016dbd'}">
                             {{time.time}}
                         </div>
                     }

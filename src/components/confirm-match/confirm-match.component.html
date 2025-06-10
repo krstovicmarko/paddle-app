@@ -10,7 +10,7 @@
         }
         <div class="opposing-div">
             <div>
-                1. <span class="choose-player-span">Me</span>
+                1. <span class="choose-player-span" (click)="choosePlayer(0)">{{playerName(0)}}</span>
             </div>
             <div (click)="choosePlayer(1)">
                 1. <span class="choose-player-span">{{playerName(1)}}</span>

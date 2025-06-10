@@ -38,11 +38,17 @@ export class BookACourtComponent {
   initCourtTimes() {
     this.courtTimes = Array.from(
       {length: this.court!.work_hours_end - this.court!.work_hours_start},
-      (_, i) => new AvailableTime((i + this.court!.work_hours_start) + ":00", Availability.Available));
-
-      for (let i = 0; i < this.courtTimes.length; i++) {
-      if (this.courtTimes[i].time.length != 5)
-          this.courtTimes[i].time = "0" + this.courtTimes[i].time;
+      (_, i) => new AvailableTime((i + this.court!.work_hours_start).toString().padStart(2, "0") + ":00", Availability.Available));
+    
+    for (let courtReservation of this.courtReservations) {
+      console.log(`${this.chosenDate} == ${courtReservation.date}`);
+      if (this.chosenDate == courtReservation.date && courtReservation.court_id == this.court!.id) {
+        let i = courtReservation.time - this.court!.work_hours_start;
+        let len = courtReservation.duration;
+        for (; len > 0; len--, i++) {
+          this.courtTimes[i].availability = Availability.Taken;
+        }
+      }
     }
   }
 
@@ -81,14 +87,13 @@ export class BookACourtComponent {
         }
       }
 
-      this.initCourtTimes();
-
       const today = new Date();
       const day =  String(today.getDate()).padStart(2, '0');
       const month = String(today.getMonth() + 1).padStart(2, '0');
       const year = today.getFullYear();
 
       this.chosenDate = `${year}-${month}-${day}`;
+      this.initCourtTimes();
 
       if (!this.localStorageService.exists("courtReservation") || 
           (this.localStorageService.getItem("courtReservation") as CourtReservation).court_id != this.court!.id) {

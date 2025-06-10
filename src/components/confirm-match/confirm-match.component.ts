@@ -50,8 +50,12 @@ export class ConfirmMatchComponent {
   }
 
   playerName(i: number): string {
+    let id = this.courtReservation.player_ids[i];
+    if (this.currentUser.id == id)
+      return "Me";
     for (let user of this.users) {
-      if (i == user.id) {
+      if (id == user.id) {
+        // console.log(user);
         return user.name;
       }
     }

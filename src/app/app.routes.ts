@@ -13,6 +13,7 @@ import { AvailablePlayersComponent } from '../components/available-players/avail
 import { ProfileComponent } from '../components/profile/profile.component';
 import { EditProfileComponent } from '../components/edit-profile/edit-profile.component';
 import { YourMatchComponent } from '../components/your-match/your-match.component';
+import { EmployeeInterfaceComponent } from '../components/employee-interface/employee-interface.component';
 
 export const routes: Routes = [
     {path: 'home', component:HomeComponent},
@@ -29,4 +30,5 @@ export const routes: Routes = [
     {path: 'profile/:id', component:ProfileComponent},
     {path: 'edit-profile', component:EditProfileComponent},
     {path: 'your-match', component:YourMatchComponent},
+    {path: 'employee-interface', component:EmployeeInterfaceComponent},
 ];

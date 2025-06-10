@@ -1,0 +1,72 @@
+<div class="container-fluid d-flex flex-column justify-content-center align-items-center p-0 bg-light">
+    <div class="row w-100 justify-content-center" style="max-width: 600px; gap: 20px;"
+        [ngClass]="{'mtop': upcomingMatch == null}">
+        <div class="col-5 d-flex paddle-button-back p-2">
+            <button class="btn w-100 h-100 p-0">
+                <div class="aspect-ratio-box">
+                    <div
+                        class="paddle-button-front d-flex flex-column justify-content-center align-items-center rounded shadow p-3">
+                        <img alt="" src="../../assets/images/court-bookings.png" class="img-fluid mb-2"
+                            style="max-height: 60%;" />
+                        <div class="paddle-text text-white fw-bold mt-auto">Court bookings</div>
+                    </div>
+                </div>
+            </button>
+        </div>
+
+        <div class="col-5 d-flex paddle-button-back p-2">
+            <button class="btn w-100 h-100 p-0" (click)="goToMatchHistory()">
+                <div class="aspect-ratio-box">
+                    <div
+                        class="paddle-button-front d-flex flex-column justify-content-center align-items-center rounded shadow p-3">
+                        <img alt="" src="../../assets/images/match-confirmations.png" class="img-fluid mb-2"
+                            style="max-height: 60%;" />
+                        <div class="paddle-text text-white fw-bold mt-auto">Match confirmations</div>
+                    </div>
+                </div>
+            </button>
+        </div>
+
+        <div class="col-5 d-flex paddle-button-back p-2">
+            <button class="btn w-100 h-100 p-0">
+                <div class="aspect-ratio-box">
+                    <div
+                        class="paddle-button-front d-flex flex-column justify-content-center align-items-center rounded shadow p-3">
+                        <img alt="" src="../../assets/images/customer-support.png" class="img-fluid mb-2"
+                            style="max-height: 60%;" />
+                        <div class="paddle-text text-white fw-bold mt-auto">Customer support</div>
+                    </div>
+                </div>
+            </button>
+        </div>
+
+        <div class="col-5 d-flex paddle-button-back p-2">
+            <button class="btn w-100 h-100 p-0">
+                <div class="aspect-ratio-box">
+                    <div
+                        class="paddle-button-front d-flex flex-column justify-content-center align-items-center rounded shadow p-3">
+                        <img alt="" src="../../assets/images/payment-icon.png" class="img-fluid mb-2"
+                            style="max-height: 60%;" />
+                        <div class="paddle-text text-white fw-bold mt-auto">Due payments</div>
+                    </div>
+                </div>
+            </button>
+        </div>
+
+
+
+        <div class="col-5 d-flex paddle-button-back p-2">
+            <button class="btn w-100 h-100 p-0">
+                <div class="aspect-ratio-box">
+                    <div
+                        class="paddle-button-front d-flex flex-column justify-content-center align-items-center rounded shadow p-3">
+                        <img alt="" src="../../assets/images/system-alerts.png" class="img-fluid mb-2"
+                            style="max-height: 60%;" />
+                        <div class="paddle-text text-white fw-bold mt-auto">System alerts</div>
+                    </div>
+                </div>
+            </button>
+        </div>
+
+    </div>
+</div>

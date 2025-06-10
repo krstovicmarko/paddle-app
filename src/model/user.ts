@@ -12,7 +12,7 @@ export class User {
     pp_points: number;
     wins: number;
     loses: number;
-    points: number;
+    // points: number;
     ranking: number;
     availableToPlay: boolean = true;
     favouriteHand: string = "right";
@@ -31,7 +31,7 @@ export class User {
         this.pp_points = pp_points;
         this.wins = Math.trunc((Math.random() * 200));
         this.loses = Math.trunc((Math.random() * 200));
-        this.points = Math.trunc((Math.random() * 2000));
+        // this.points = Math.trunc((Math.random() * 2000));
         this.ranking = 200 - this.wins + this.loses; 
     }
 }

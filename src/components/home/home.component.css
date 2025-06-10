@@ -105,3 +105,9 @@
     padding-left: 5vw;
     font-size: 2vh;
 }
+
+.button-available-courts {
+    border-radius: 10px;
+    appearance: none;
+    font-size: 1.9vh;
+}
