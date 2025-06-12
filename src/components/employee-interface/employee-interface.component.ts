@@ -38,6 +38,18 @@ export class EmployeeInterfaceComponent {
 
   // }
 
+  goToCourtBookings() {
+   this.routerService.navigateTo("court-bookings"); 
+  }
+ 
+  goToMatchConfirmations() {
+    this.routerService.navigateTo("match-confirmations");
+  }
+
+  goToSystemAlerts() {
+    this.routerService.navigateTo("system-alerts");
+  }
+
 //   loadUsers() {
 //     this.users = this.localStorageService.getItem("users") as User[];
 //   }

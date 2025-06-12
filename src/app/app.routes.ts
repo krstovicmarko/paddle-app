@@ -14,6 +14,9 @@ import { ProfileComponent } from '../components/profile/profile.component';
 import { EditProfileComponent } from '../components/edit-profile/edit-profile.component';
 import { YourMatchComponent } from '../components/your-match/your-match.component';
 import { EmployeeInterfaceComponent } from '../components/employee-interface/employee-interface.component';
+import { CourtBookingsComponent } from '../components/court-bookings/court-bookings.component';
+import { MatchConfirmationsComponent } from '../components/match-confirmations/match-confirmations.component';
+import { SystemAlertsComponent } from '../components/system-alerts/system-alerts.component';
 
 export const routes: Routes = [
     {path: 'home', component:HomeComponent},
@@ -31,4 +34,7 @@ export const routes: Routes = [
     {path: 'edit-profile', component:EditProfileComponent},
     {path: 'your-match', component:YourMatchComponent},
     {path: 'employee-interface', component:EmployeeInterfaceComponent},
+    {path: 'court-bookings', component:CourtBookingsComponent},
+    {path: 'match-confirmations', component:MatchConfirmationsComponent},
+    {path: 'system-alerts', component:SystemAlertsComponent},
 ];

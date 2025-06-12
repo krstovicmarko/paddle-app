@@ -1,10 +1,14 @@
-#court-bookings {
+#match-confirmations {
     font-family: sans-serif;
+}
+
+span {
+    padding: 1vw;
 }
 
 #choose-date {
     position: relative;
-    display: inline-block;
+    /* display: inline-block; */
     font-size: 2.3vh;
     padding-left: 5vw;
     padding-top: 3vh;
@@ -27,7 +31,7 @@
 
 #choose-time {
     position: relative;
-    display: inline-block;
+    /* display: inline-block; */
     font-size: 2.3vh;
     padding-left: 5vw;
     padding-top: 3vh;
@@ -64,7 +68,6 @@
     width: 33vw;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     color: white;
     margin: 3vw;
     text-align: center;
@@ -84,4 +87,22 @@
     align-self: center;
     border-radius: 15px;
     color: white;
+}
+
+.choice-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.confirm {
+    object-fit: contain;
+    height: 2vh;
+    width: 2vh;
+}
+
+.refuse {
+    object-fit: contain;
+    height: 2vh;
+    width: 2vh;
 }

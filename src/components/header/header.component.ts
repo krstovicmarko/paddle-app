@@ -31,7 +31,7 @@ export class HeaderComponent {
       this.haveBackButton = false;
       return;
     }
-    if(this.currentPage != 'home' && !this.currentPage.includes("confirmation") && 
+    if(this.currentPage != 'home' && (!this.currentPage.includes("confirmation") || this.currentPage.includes("match-confirmations")) && 
     (!this.currentPage.includes("profile") || this.currentPage.includes("edit"))) {
       let len = this.currentPage.indexOf("/") != -1 ? this.currentPage.indexOf("/") : this.currentPage.length;
       let currentPageTmp = this.currentPage[0].toUpperCase() + this.currentPage.substring(1, len);
@@ -52,8 +52,12 @@ export class HeaderComponent {
       this.haveBackButton = false;
     }
 
-    // console.log(this.location.path());
-    if (this.location.path().includes("employee-interface")) {
+    console.log(this.location.path());
+    if (
+      this.currentPage != "court-bookings" &&
+      this.currentPage != "match-confirmations" &&
+      this.currentPage != "system-alerts" &&
+      this.location.path().includes("employee-interface")) {
       this.name = "Employee interface";
       this.haveBackButton = false;
       this.localStorageService.setItem("previousPages", ["home"]);
