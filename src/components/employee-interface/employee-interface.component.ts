@@ -50,6 +50,10 @@ export class EmployeeInterfaceComponent {
     this.routerService.navigateTo("system-alerts");
   }
 
+  goToDuePayments() {
+    this.routerService.navigateTo("due-payments");
+  }
+
 //   loadUsers() {
 //     this.users = this.localStorageService.getItem("users") as User[];
 //   }

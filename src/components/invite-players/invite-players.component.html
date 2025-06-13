@@ -26,8 +26,21 @@
                         <td class="num">{{ i + 1 }}.</td>
                         <td class="name">{{friend.name}} {{friend.last_name}}</td>
                         <td class="pp-list-points">{{friend.pp_points}}</td>
-                        <td class="invite" [style]="{'background-color': invited(friend.id) ? '#efcaff' : '#016dbd', 'color':  invited(friend.id) ? 'black' : 'white', 'border-radius': '10px'}" (click)="invite(friend.id)">{{ invited(friend.id) ? 'Invited' : 'Invite' }}</td>
+                        @if(!friendships) {
+                            <td class="invite" [style]="{'background-color': invited(friend.id) ? '#efcaff' : '#016dbd', 'color':  invited(friend.id) ? 'black' : 'white', 'border-radius': '10px'}" (click)="invite(friend.id)">{{ invited(friend.id) ? 'Invited' : 'Invite' }}</td>
+                        }
                     </tr>
+                }
+
+                @if (friendships) {
+                    @for(friend of potentialFriends; track friend.id; let i = $index) {
+                        <tr>
+                            <td class="num">{{ i + friends.length }}.</td>
+                            <td class="name">{{friend.name}} {{friend.last_name}}</td>
+                            <td class="pp-list-points">{{friend.pp_points}}</td>
+                            <td class="invite" [style]="{'background-color': invited(friend.id) ? '#efcaff' : '#016dbd', 'color':  invited(friend.id) ? 'black' : 'white', 'border-radius': '10px'}" (click)="accept(friend.id)">Accept</td>
+                        </tr>
+                    }
                 }
             </table>
         </div>
@@ -46,6 +59,7 @@
                 </div>
             </div>
 
+            @if (!friendships) {
             <div id="invite-free-players">
                 <div id="invite-free-players-text">Invite free players</div>
                 <div id="invite-select">
@@ -88,7 +102,8 @@
             <div id="search-players-div">
                 <div id="search-players-button" (click)="searchPlayers()">Search players</div>
             </div>
-
+        }
         </div>
+
     }
 </div>

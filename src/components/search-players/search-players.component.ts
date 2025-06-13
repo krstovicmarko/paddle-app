@@ -18,7 +18,8 @@ export class SearchPlayersComponent {
 
   constructor(private localStorageService: LocalStorageService, private route: ActivatedRoute,
               private routerService: RouterService) {}
-
+  
+  friendshipsPage: boolean = false;
   players: User[] = this.localStorageService.getItem("users") as User[];
   currentUser: User = this.localStorageService.getItem("currentUser") as User;
   friendships: Friends[] = this.localStorageService.getItem("friends") as Friends[];

@@ -5,6 +5,7 @@ import { RouterService } from '../../services/router.service';
 import { Gender, User } from '../../model/user';
 import { Friends } from '../../model/friends';
 import { CourtReservation } from '../../model/court-reservation';
+import { FriendRequest } from '../../model/friend-request';
 
 @Component({
   selector: 'app-home',
@@ -75,6 +76,13 @@ export class HomeComponent implements OnInit {
         new Friends(2, 0, 5),
         new Friends(3, 0, 7),
         new Friends(4, 9, 0),
+      ]);
+    }
+
+    if (!localStorageService.exists("friendRequests")) {
+      localStorageService.setItem("friendRequests", [
+        new FriendRequest(0, 3, 0),
+        new FriendRequest(1, 4, 0),
       ]);
     }
 

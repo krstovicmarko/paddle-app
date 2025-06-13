@@ -85,6 +85,10 @@ export class NotificationComponent {
     this.routerService.navigateTo('match-history');
   }
 
+  goToFriendships() {
+    this.routerService.navigateTo('friendships');
+  }
+ 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
     return `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getFullYear()}`;

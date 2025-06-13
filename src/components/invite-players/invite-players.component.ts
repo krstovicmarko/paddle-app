@@ -4,10 +4,11 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { ActivatedRoute } from '@angular/router';
 import { Friends } from '../../model/friends';
 import { CourtReservation } from '../../model/court-reservation';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PlayerSearch } from '../../model/player-search';
 import { RouterService } from '../../services/router.service';
+import { FriendRequest } from '../../model/friend-request';
 
 @Component({
   selector: 'app-invite-players',
@@ -18,28 +19,30 @@ import { RouterService } from '../../services/router.service';
 })
 export class InvitePlayersComponent {
 
+  friendships: boolean = false;
   inviteFriends: boolean = true;
   friends: User[] = [];
+  potentialFriends: User[] = [];
   idx: number = -1;
   courtReservation: CourtReservation = this.localStorageService.getItem("courtReservation") as CourtReservation;
   isSingle: boolean = false;
   gender: boolean = false;
   selectedLeague: string = '0';
+  friendRequests: FriendRequest[] = this.localStorageService.getItem("friendRequests") as FriendRequest[];
+  currentUser: User = this.localStorageService.getItem("currentUser") as User;
+  friendRelations = this.localStorageService.getItem("friends") as Friends[];
 
   constructor(private route: ActivatedRoute, private localStorageService: LocalStorageService,
-              private routerService: RouterService
+              private routerService: RouterService, private location: Location
   ) {
 
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-          this.idx = Number(params.get('idx') as string);
-    });
 
     let users: User[] = this.localStorageService.getItem("users") as User[];
-    let friends: Friends[] = this.localStorageService.getItem("friends") as Friends[];
-    let currentUser: User = this.localStorageService.getItem("currentUser") as User;
+    let friends = this.friendRelations;
+    let currentUser: User = this.currentUser;
 
     for (let f of friends) {
       if (currentUser.id == f.user_id_1 || currentUser.id == f.user_id_2) {
@@ -53,7 +56,28 @@ export class InvitePlayersComponent {
     }
 
     this.isSingle = this.courtReservation.player_ids.length == 2;
+    
+    console.log(this.location.path());
+    if (this.location.path().includes("friendships")) {
+      this.friendships = true;
 
+      for (let friendRequest of this.friendRequests) {
+        if (friendRequest.receiver_id == currentUser.id) {
+          for (let user of users) {
+            if (user.id == friendRequest.sender_id) {
+              this.potentialFriends.push(user);
+              break;
+            }
+          }
+        }
+      }
+
+      return;
+    }
+
+    this.route.paramMap.subscribe(params => {
+      this.idx = Number(params.get('idx') as string);
+    });
   }
 
   invite(i: number) {
@@ -110,5 +134,28 @@ export class InvitePlayersComponent {
     this.localStorageService.setItem("playerSearch", new PlayerSearch(Number(this.selectedLeague), this.gender ? Gender.Female : Gender.Male));
     this.routerService.navigateTo("search-players/" + this.idx);
 
+  }
+
+  accept(id: number) {
+    for (let i = 0; i < this.friendRequests.length; i++) {
+      let friendRequest = this.friendRequests[i];
+      if (friendRequest.sender_id == id && friendRequest.receiver_id == this.currentUser.id) {
+        this.friendRequests[i] = this.friendRequests[this.friendRequests.length - 1];
+        this.friendRequests.pop();
+        this.localStorageService.setItem("friendRequests", this.friendRequests);
+      }
+    }
+
+    for (let i = 0; i < this.potentialFriends.length; i++) {
+      let friend = this.potentialFriends[i];
+      if (friend.id == id) {
+        this.potentialFriends[i] = this.potentialFriends[this.potentialFriends.length - 1];
+        this.potentialFriends.pop();
+        this.friends.push(friend);
+        break;
+      }
+    }
+    this.friendRelations.push(new Friends(this.friends.length, id, this.currentUser.id));
+    this.localStorageService.setItem("friends", this.friendRelations);
   }
 }

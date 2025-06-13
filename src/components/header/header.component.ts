@@ -57,6 +57,7 @@ export class HeaderComponent {
       this.currentPage != "court-bookings" &&
       this.currentPage != "match-confirmations" &&
       this.currentPage != "system-alerts" &&
+      this.currentPage != "due-payments" &&
       this.location.path().includes("employee-interface")) {
       this.name = "Employee interface";
       this.haveBackButton = false;

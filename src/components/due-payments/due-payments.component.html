@@ -1,0 +1,64 @@
+<div id="due-payments">
+
+    <div id="name-div">
+        Due payments
+    </div>
+
+
+    <div id="lists">
+        <div class="list" (click)="showDueThisMonth = !showDueThisMonth">
+            <div class="list-label">
+                <span class="label">Amount due this month 06/2025</span>
+                <img class="black-arrow" src="../../assets/images/arrow-right-black.png" 
+                    alt="" [style]="{'transform': showDueThisMonth ? 'rotate(90deg)' : 'rotate(0)'}">
+            </div>
+            <div>
+                @if(showDueThisMonth) {
+                    <ul>
+                        <li>01.06.2025: 7800rsd</li>
+                        <li>02.06.2025: 6400rsd</li>
+                        <li>03.06.2025: 8900rsd</li>
+                        <li>04.06.2025: 10300rsd</li>
+                    </ul>
+                }
+            </div>
+        </div>
+
+        <div class="list" (click)="showDayByDayInsights = !showDayByDayInsights">
+            <div class="list-label">
+                <span class="label">Day by day insights</span>
+                <img class="black-arrow" src="../../assets/images/arrow-right-black.png" 
+                    alt="" [style]="{'transform': showDayByDayInsights ? 'rotate(90deg)' : 'rotate(0)'}">
+            </div>
+            @if(showDayByDayInsights) {
+                <div style="font-weight: bold;">
+                    13.06.2025.
+                </div>
+                <ul>
+                    <li>10:00 - court 1, 4 and 6 played = 300rsd</li>
+                    <li>11:00 - court 2, 3, 5 and 6 played = 400rsd</li>
+                    <li>12:00 - court 1, 3, 4, 5 and 6, played=500rsd</li>
+                </ul>
+            }
+        </div>
+
+
+        <div class="list" (click)="showYearlyPayout = !showYearlyPayout">
+            <div class="list-label">
+                <span class="label">Yearly payout</span>
+                <img class="black-arrow" src="../../assets/images/arrow-right-black.png" 
+                    alt="" [style]="{'transform': showYearlyPayout ? 'rotate(90deg)' : 'rotate(0)'}">
+            </div>
+            @if(showYearlyPayout) {
+                <ul>
+                    <li>01/2025 - 20000rsd</li>
+                    <li>02/2025 - 27400rsd</li>
+                    <li>03/2025 - 31200rsd</li>
+                    <li>04/2025 - 30700rsd</li>
+                </ul>
+            }
+        </div>
+
+    </div>
+
+</div>

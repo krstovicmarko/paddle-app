@@ -17,6 +17,8 @@ import { EmployeeInterfaceComponent } from '../components/employee-interface/emp
 import { CourtBookingsComponent } from '../components/court-bookings/court-bookings.component';
 import { MatchConfirmationsComponent } from '../components/match-confirmations/match-confirmations.component';
 import { SystemAlertsComponent } from '../components/system-alerts/system-alerts.component';
+import { DuePaymentsComponent } from '../components/due-payments/due-payments.component';
+import { FriendshipsComponent } from '../components/friendships/friendships.component';
 
 export const routes: Routes = [
     {path: 'home', component:HomeComponent},
@@ -37,4 +39,6 @@ export const routes: Routes = [
     {path: 'court-bookings', component:CourtBookingsComponent},
     {path: 'match-confirmations', component:MatchConfirmationsComponent},
     {path: 'system-alerts', component:SystemAlertsComponent},
+    {path: 'due-payments', component:DuePaymentsComponent},
+    {path: 'friendships', component: FriendshipsComponent},
 ];
