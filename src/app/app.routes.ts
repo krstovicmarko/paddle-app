@@ -19,6 +19,9 @@ import { MatchConfirmationsComponent } from '../components/match-confirmations/m
 import { SystemAlertsComponent } from '../components/system-alerts/system-alerts.component';
 import { DuePaymentsComponent } from '../components/due-payments/due-payments.component';
 import { FriendshipsComponent } from '../components/friendships/friendships.component';
+import { ClubMembershipComponent } from '../components/club-membership/club-membership.component';
+import { MyClubComponent } from '../components/my-club/my-club.component';
+import { PromotionsComponent } from '../components/promotions/promotions.component';
 
 export const routes: Routes = [
     {path: 'home', component:HomeComponent},
@@ -41,4 +44,7 @@ export const routes: Routes = [
     {path: 'system-alerts', component:SystemAlertsComponent},
     {path: 'due-payments', component:DuePaymentsComponent},
     {path: 'friendships', component: FriendshipsComponent},
+    {path: 'club-membership', component:ClubMembershipComponent},
+    {path: 'my-club/:id', component:MyClubComponent},
+    {path: 'promotions/:idClub', component:PromotionsComponent}
 ];

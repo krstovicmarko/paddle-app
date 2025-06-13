@@ -35,9 +35,12 @@ export class HomeComponent implements OnInit {
     if (!localStorageService.exists("courts")) {
       localStorageService.setItem("courts",
         [
-          new Court(0, "Padel court 1", "../../assets/images/padel-court-1.png", "Beogradska 63", 8, 18, 4000, 3),
-          new Court(1, "Padel court 2", "../../assets/images/padel-court-2.png", "Krunska 26", 10, 22, 3800, 4),
-          new Court(2, "Padel court 3", "../../assets/images/padel-court-3.png", "Patrisa Lumumbe 11", 9, 23, 4200, 2),
+          new Court(0, "Padel court 1", "../../assets/images/padel-court-1.png", "Beogradska 63", 8, 18, 4000, 3, 4, 1000, ["../../assets/images/padel-court-1-1.png"]),
+          new Court(1, "Padel court 2", "../../assets/images/padel-court-2.png", "Krunska 26", 10, 22, 3800, 4, 2, 340, ["../../assets/images/padel-court-1-1.png"]),
+          new Court(2, "Padel court 3", "../../assets/images/padel-court-3.png", "Patrisa Lumumbe 11", 9, 23, 4200, 2, 4, 850, ["../../assets/images/padel-court-1-1.png"]),
+          new Court(3, "Padel court 4", "../../assets/images/padel-court-4.png", "Dunavska 1", 8, 18, 4000, 3, 3, 540, ["../../assets/images/padel-court-1-1.png"]),
+          new Court(4, "Padel court 5", "../../assets/images/padel-court-5.png", "Vatroslava Jagica 26", 10, 22, 3800, 4, 3, 500, ["../../assets/images/padel-court-1-1.png"]),
+          new Court(5, "Padel court 6", "../../assets/images/padel-court-6.png", "Knez Mihajlova 11", 9, 23, 4200, 2, 4, 730, ["../../assets/images/padel-court-1-1.png"])
         ]
       );
     }
@@ -45,17 +48,17 @@ export class HomeComponent implements OnInit {
     if (!localStorageService.exists("users")) {
       localStorageService.setItem("users",
         [
-          new User(0, "milos", "Milos", "Milosevic", Gender.Male, 10),
-          new User(1, "lazar", "Lazar", "Lazarevic", Gender.Male, 100),
-          new User(2, "jovana", "Jovana", "Jovanovic", Gender.Female, 1000),
-          new User(3, "ivan", "Ivan", "Ivanovic", Gender.Male, 334),
-          new User(4, "isidora", "Isidora", "Isidorovic", Gender.Female, 11),
-          new User(5, "danilo", "Danilo", "Danilovic", Gender.Male, 543),
-          new User(6, "marko", "Marko", "Markovic", Gender.Male, 123),
-          new User(7, "ksenija", "Ksenija", "Ksencic", Gender.Female, 125),
-          new User(8, "mirko", "Mirko", "Mirkovic", Gender.Male, 678),
-          new User(9, "antonija", "Antonija", "Antonic", Gender.Female, 234),
-          new User(10, "antonije", "Antonije", "Antonic", Gender.Male, 166),
+          new User(0, "milos", "Milos", "Milosevic", Gender.Male, 10, [0,1,2]),
+          new User(1, "lazar", "Lazar", "Lazarevic", Gender.Male, 100, [0,2]),
+          new User(2, "jovana", "Jovana", "Jovanovic", Gender.Female, 1000, [3]),
+          new User(3, "ivan", "Ivan", "Ivanovic", Gender.Male, 334, [0,1]),
+          new User(4, "isidora", "Isidora", "Isidorovic", Gender.Female, 11, [1]),
+          new User(5, "danilo", "Danilo", "Danilovic", Gender.Male, 543, [1,2]),
+          new User(6, "marko", "Marko", "Markovic", Gender.Male, 123, [0,1]),
+          new User(7, "ksenija", "Ksenija", "Ksencic", Gender.Female, 125, [0,1]),
+          new User(8, "mirko", "Mirko", "Mirkovic", Gender.Male, 678, [1,3,4]),
+          new User(9, "antonija", "Antonija", "Antonic", Gender.Female, 234, [1,2]),
+          new User(10, "antonije", "Antonije", "Antonic", Gender.Male, 166, [1]),
         ]
 
       );

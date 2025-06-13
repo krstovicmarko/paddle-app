@@ -1,0 +1,69 @@
+<div class="club-page">
+
+    <div class="club-header">
+        <h1>{{club?.name}}</h1>
+    </div>
+
+    <div class="club-images">
+        <div class="image-scroll">
+            <img [src]="club?.img_path" alt="Club image" class="club-image">
+            @for (image of club?.additional_images; track $index) {
+            <img [src]="image" alt="Club image {{$index + 1}}" class="club-image">
+            }
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-button" [class.active]="activeTab === 'activity'" (click)="setActiveTab('activity')">
+            Club Activity
+        </button>
+        <button class="tab-button" [class.active]="activeTab === 'matches'" (click)="setActiveTab('matches')">
+            Matches
+        </button>
+    </div>
+
+    @if (activeTab === 'activity') {
+<div class="activity-options">
+    <a (click)="navigateToPromotions()" class="activity-option">
+        <span>Promotions</span>
+        <span class="arrow">→</span>
+    </a>
+    <a (click)="navigateToBookCourt()" class="activity-option">
+        <span>Book a Court</span>
+        <span class="arrow">→</span>
+    </a>
+    <a (click)="navigateToVamosGroup()" class="activity-option">
+        <span>{{club?.name}} Group</span>
+        <span class="arrow">→</span>
+    </a>
+</div>
+    }
+
+    @if (activeTab === 'matches') {
+    <div class="matches-content">
+        <h3 class="members-header"><b>Club members</b></h3>
+        <table class="members-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th><span class="pp-list">PP List</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let member of club_members">
+                    <td>
+                        <span class="name">
+                         {{member.name}} {{member.last_name}}
+                        </span>
+                           
+                    </td>
+                    <td >{{member.pp_points}}</td>
+                    <td><button class="invite-btn">Invite</button></td>
+                </tr>
+               
+            </tbody>
+        </table>
+    </div>
+    }
+</div>
