@@ -25,3 +25,39 @@
     height: 35vh;
     
 }
+
+.msg-span {
+    align-self: center;
+    padding-top: 1vh;
+    padding-right: 3vw;
+    align-self: center;
+    font-size: 3.3vh;
+    font-weight: bold;
+}
+
+#win-loss-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#confetti-img {
+    object-fit: contain;
+    height: 6vh;
+    width: 6vh;
+}
+
+#points-gained {
+    padding-top: 30vh;
+    font-weight: bold;
+}
+
+.stats-gained {
+    padding-top: 2vh;
+}
+
+#arrow-img {
+    object-fit: contain;
+    height: 3vh;
+    width: 3vh;
+}

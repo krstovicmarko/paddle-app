@@ -13,6 +13,7 @@ export class User {
     wins: number;
     loses: number;
     points: number;
+    ranking: number;
     availableToPlay: boolean = true;
     favouriteHand: string = "right";
     favouriteMatch: string = "competitive";
@@ -31,5 +32,6 @@ export class User {
         this.wins = Math.trunc((Math.random() * 200));
         this.loses = Math.trunc((Math.random() * 200));
         this.points = Math.trunc((Math.random() * 2000));
+        this.ranking = 200 - this.wins + this.loses; 
     }
 }
