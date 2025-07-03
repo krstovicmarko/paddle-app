@@ -5,6 +5,7 @@ import { RouterService } from '../../services/router.service';
 import { Gender, User } from '../../model/user';
 import { Friends } from '../../model/friends';
 import { CourtReservation } from '../../model/court-reservation';
+import { CourtService } from '../../services/court.service';
 
 @Component({
   selector: 'app-home',
@@ -14,11 +15,14 @@ import { CourtReservation } from '../../model/court-reservation';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-  constructor(private routerService: RouterService, private localStorageService: LocalStorageService) {}
+  constructor(private routerService: RouterService, private localStorageService: LocalStorageService,
+    private courtSvc:CourtService
+  ) {}
   courts: Court[] = [];
   upcomingMatch?: CourtReservation = undefined;
   currentUser?: User;
   users?: User[];
+  items?:any[];
   ngOnInit(): void {
     let localStorageService: LocalStorageService = this.localStorageService;
     if (!localStorageService.exists("pages")) {
@@ -44,22 +48,22 @@ export class HomeComponent implements OnInit {
     if (!localStorageService.exists("users")) {
       localStorageService.setItem("users",
         [
-          new User(0, "milos", "Milos", "Milosevic", Gender.Male, 10),
-          new User(1, "lazar", "Lazar", "Lazarevic", Gender.Male, 100),
-          new User(2, "jovana", "Jovana", "Jovanovic", Gender.Female, 1000),
-          new User(3, "ivan", "Ivan", "Ivanovic", Gender.Male, 334),
-          new User(4, "isidora", "Isidora", "Isidorovic", Gender.Female, 11),
-          new User(5, "danilo", "Danilo", "Danilovic", Gender.Male, 543),
-          new User(6, "marko", "Marko", "Markovic", Gender.Male, 123),
-          new User(7, "ksenija", "Ksenija", "Ksencic", Gender.Female, 125),
-          new User(8, "mirko", "Mirko", "Mirkovic", Gender.Male, 678),
-          new User(9, "antonija", "Antonija", "Antonic", Gender.Female, 234),
-          new User(10, "antonije", "Antonije", "Antonic", Gender.Male, 166),
+          new User(0, "milos", "Milos", "Milosevic", Gender.Male, 10, '', []),
+          new User(1, "lazar", "Lazar", "Lazarevic", Gender.Male, 100, '', []),
+          new User(2, "jovana", "Jovana", "Jovanovic", Gender.Female, 1000, '', []),
+          new User(3, "ivan", "Ivan", "Ivanovic", Gender.Male, 334, '', []),
+          new User(4, "isidora", "Isidora", "Isidorovic", Gender.Female, 11, '', []),
+          new User(5, "danilo", "Danilo", "Danilovic", Gender.Male, 543, '', []),
+          new User(6, "marko", "Marko", "Markovic", Gender.Male, 123, '', []),
+          new User(7, "ksenija", "Ksenija", "Ksencic", Gender.Female, 125, '', []),
+          new User(8, "mirko", "Mirko", "Mirkovic", Gender.Male, 678, '', []),
+          new User(9, "antonija", "Antonija", "Antonic", Gender.Female, 234, '', []),
+          new User(10, "antonije", "Antonije", "Antonic", Gender.Male, 166, '', []),
         ]
 
       );
     }
-
+    this.loadItems();
     this.users = localStorageService.getItem("users");
 
     if (!localStorageService.exists("currentUser")) {
@@ -101,6 +105,13 @@ export class HomeComponent implements OnInit {
     this.upcomingMatch = this.getUpcomingMatch();
   }
 
+  loadItems() {
+    this.courtSvc.getItems().subscribe(items => {
+      this.courts = items;
+      if(this.items!=null)
+        alert('Returned: '+this.items.length+' courts!');
+    });
+  }
   goToBookACourt(id: number) {
     this.routerService.navigateTo("book-a-court/" + id);
   }

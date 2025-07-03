@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HomeComponent } from '../components/home/home.component';
 import { UnimplementedComponent } from '../components/unimplemented/unimplemented.component';
@@ -11,18 +12,22 @@ import { AvailablePlayersComponent } from '../components/available-players/avail
 import { ProfileComponent } from '../components/profile/profile.component';
 import { EditProfileComponent } from '../components/edit-profile/edit-profile.component';
 import { YourMatchComponent } from '../components/your-match/your-match.component';
+import { LoginComponent } from '../components/login/login.component';
+import { AuthGuard } from './auth-guard';
+
 
 export const routes: Routes = [
-    {path: 'home', component:HomeComponent},
+    {path: 'home', component:HomeComponent, canActivate: [AuthGuard]},
     {path:'', redirectTo: '/home', pathMatch: 'full'},
     {path: 'unimplemented', component:UnimplementedComponent},
-    {path: 'book-a-court/:id', component:BookACourtComponent},
-    {path: 'invite-players/:idx', component:InvitePlayersComponent},
-    {path: 'confirm-match', component:ConfirmMatchComponent},
-    {path: 'confirmation/:type', component:ConfirmationComponent},
-    {path: 'search-players/:idx', component:SearchPlayersComponent},
-    {path: 'available-players/:id/:idx', component:AvailablePlayersComponent},
-    {path: 'profile/:id', component:ProfileComponent},
-    {path: 'edit-profile', component:EditProfileComponent},
-    {path: 'your-match', component:YourMatchComponent},
+    {path: 'book-a-court/:id', component:BookACourtComponent, canActivate: [AuthGuard]},
+    {path: 'invite-players/:idx', component:InvitePlayersComponent, canActivate: [AuthGuard]},
+    {path: 'confirm-match', component:ConfirmMatchComponent, canActivate: [AuthGuard]},
+    {path: 'confirmation/:type', component:ConfirmationComponent, canActivate: [AuthGuard]},
+    {path: 'search-players/:idx', component:SearchPlayersComponent, canActivate: [AuthGuard]},
+    {path: 'available-players/:id/:idx', component:AvailablePlayersComponent, canActivate: [AuthGuard]},
+    {path: 'profile/:id', component:ProfileComponent, canActivate: [AuthGuard]},
+    {path: 'edit-profile', component:EditProfileComponent, canActivate: [AuthGuard]},
+    {path: 'your-match', component:YourMatchComponent, canActivate: [AuthGuard]},
+    {path: 'login', component:LoginComponent},
 ];

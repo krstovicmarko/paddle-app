@@ -1,3 +1,5 @@
+import { Role } from "./role";
+
 export enum Gender {
     Male = 0,
     Female = 1
@@ -21,8 +23,13 @@ export class User {
     phone: string = "+38160666666";
     mail: string = "dummy@gmail.com";
     dateOfBirth: string = "01.01.2001.";
+    email: string;
+    jwtToken?: string;
+    refreshToken?: string;
+    password?: string;
+    roles: Role[];
 
-    constructor(id: number, username: string, name: string, last_name: string, gender: Gender, pp_points: number) {
+    constructor(id: number, username: string, name: string, last_name: string, gender: Gender, pp_points: number, email: string, roles: Role[]) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -33,5 +40,7 @@ export class User {
         this.loses = Math.trunc((Math.random() * 200));
         this.points = Math.trunc((Math.random() * 2000));
         this.ranking = 200 - this.wins + this.loses; 
+        this.email = email;
+        this.roles = roles;
     }
 }
