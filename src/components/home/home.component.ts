@@ -38,9 +38,9 @@ export class HomeComponent implements OnInit {
     if (!localStorageService.exists("courts")){
       localStorageService.setItem("courts",
         [
-          new Court(0, "Padel court 1", "../../assets/images/padel-court-1.png", "Beogradska 63", 8, 18, 4000, 3),
-          new Court(1, "Padel court 2", "../../assets/images/padel-court-2.png", "Krunska 26", 10, 22, 3800, 4),
-          new Court(2, "Padel court 3", "../../assets/images/padel-court-3.png", "Patrisa Lumumbe 11", 9, 23, 4200, 2),
+          new Court(1, "Padel court 1", "../../assets/images/padel-court-1.png", "Beogradska 63", 8, 18, 4000, 3),
+          new Court(2, "Padel court 2", "../../assets/images/padel-court-2.png", "Krunska 26", 10, 22, 3800, 4),
+          new Court(3, "Padel court 3", "../../assets/images/padel-court-3.png", "Patrisa Lumumbe 11", 9, 23, 4200, 2),
         ]
       );
     }
@@ -92,8 +92,8 @@ export class HomeComponent implements OnInit {
       let court = (localStorageService.getItem("courts") as Court[])[0];
 
       localStorageService.setItem("courtReservations", [
-        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 2, [0, 1, 2, 3], 1),
-        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 4, [3, 4, 5, -1], 1)
+        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 2, [0, 1, 2, 3], 1, 1),
+        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 4, [3, 4, 5, -1], 1, 1)
       ]);
     }
 

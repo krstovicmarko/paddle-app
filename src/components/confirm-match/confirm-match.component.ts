@@ -6,6 +6,9 @@ import { User } from '../../model/user';
 import { Court } from '../../model/court';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CourtService } from '../../services/court.service';
+import { CourtReservationService } from '../../services/court-reservation.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-confirm-match',
@@ -16,8 +19,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class ConfirmMatchComponent {
 
-  constructor(private localStorageService: LocalStorageService, private routerService: RouterService,
-      private route: ActivatedRoute
+  constructor(private localStorageService: LocalStorageService, private routerService: RouterService, private authenticationService: AuthenticationService,
+    private courtService: CourtService, private courtReservationService: CourtReservationService, private route: ActivatedRoute
   ){}
 
   courtReservation: CourtReservation = this.localStorageService.getItem("courtReservation") as CourtReservation;
@@ -28,7 +31,7 @@ export class ConfirmMatchComponent {
   yourMatchComponent: boolean = false;
   matchStarted: boolean = false;
   points: string[] = ['+', '+', '+', '+', '+', '+']
-  currentUser: User = this.localStorageService.getItem("currentUser") as User;
+  currentUser: User = this.authenticationService.currentUserValue;
 
   ngOnInit() {
     // console.log(this.route.url.toString());
@@ -90,10 +93,25 @@ export class ConfirmMatchComponent {
   }
 
   confirmMatch() {
-    let courtReservations = this.localStorageService.getItem("courtReservations") as CourtReservation[];
-    courtReservations.push(this.courtReservation);
-    this.localStorageService.remove("courtReservation");
-    this.localStorageService.setItem("courtReservations", courtReservations);
+    let startDate = new Date(Date.now());
+    startDate.setDate(startDate.getDate() -5);
+    let endDate = new Date();
+    endDate.setDate(endDate.getDate() + 15);
+    let courtReservations : CourtReservation[];
+    this.courtReservationService.getCourtReservationsForUser(this.currentUser.id, startDate, endDate).subscribe((response) => {
+      courtReservations = response as CourtReservation[];
+    });
+    this.courtReservation.reservation_start_time = new Date(this.courtReservation.date);
+    this.courtReservation.reservation_start_time.setHours(this.courtReservation.time);
+    this.courtReservation.reservation_end_time = new Date(this.courtReservation.date);
+    this.courtReservation.reservation_end_time.setHours(this.courtReservation.time+this.courtReservation.duration);
+    this.courtReservation.user_id = this.currentUser.id;
+    this.courtReservationService.addCourtReservation(this.courtReservation).subscribe((response) => {
+      this.courtReservation = response;
+      courtReservations.push(this.courtReservation);
+      this.localStorageService.setItem("courtReservations", courtReservations);
+      this.localStorageService.remove("courtReservation");
+    });
     this.routerService.navigateTo("confirmation/booked");
   }
 

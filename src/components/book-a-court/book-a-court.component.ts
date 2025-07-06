@@ -8,6 +8,9 @@ import { RouterService } from '../../services/router.service';
 import { Availability, AvailableTime } from '../../model/available-time';
 import { CourtReservation } from '../../model/court-reservation';
 import { User } from '../../model/user';
+import { AuthenticationService } from '../../services/authentication.service';
+import { CourtService } from '../../services/court.service';
+import { CourtReservationService } from '../../services/court-reservation.service';
 
 @Component({
   selector: 'app-book-a-court',
@@ -18,22 +21,29 @@ import { User } from '../../model/user';
 })
 export class BookACourtComponent {
   constructor(private route: ActivatedRoute, private localStorageService: LocalStorageService,
-    private routerService: RouterService
+    private courtService: CourtService, private routerService: RouterService, 
+    private authenticationService: AuthenticationService, private courtReservationService: CourtReservationService
   ) {}
 
+  currentUser:User = this.authenticationService.currentUserValue;
   @ViewChild('dateInput') dateInput!: ElementRef<HTMLInputElement>;
 
   court?: Court;
   courtTimes: AvailableTime[] = [];
   chosenDate: string = "";
   selectedMatchType: string = "single";
-  courtReservation: CourtReservation = new CourtReservation(-1, -1, "", -1, [-1, -1], 0);
+  courtReservation: CourtReservation = new CourtReservation(-1, -1, "", -1, [-1, -1], 0, this.currentUser.id);
   courtReservations: CourtReservation[] = this.localStorageService.getItem("courtReservations") as CourtReservation[];
-  currentUser: User = this.localStorageService.getItem("currentUser") as User;
   users: User[] = this.localStorageService.getItem("users") as User[];
   canConfirmMatch: boolean = false;
   availableMatches: CourtReservation[] = [];
-  courts: Court[] = this.localStorageService.getItem("courts") as Court[];
+  courts: Court[] = [];
+  
+  initCourts(){
+    this.courtService.getItems().subscribe((response) => {
+      this.courts = response;      
+    });
+  }
 
   initCourtTimes() {
     this.courtTimes = Array.from(
@@ -73,15 +83,20 @@ export class BookACourtComponent {
     this.route.paramMap.subscribe(params => {
       // console.log(params.get('id'));
       let id = Number(params.get('id') as string);
-      let courts = this.localStorageService.getItem("courts") as Court[];
-      for (let c of courts) {
-        if (c.id == id) {
-          this.court = c;
-          break;
-        }
-      }
+      this.courtService.getItem(id).subscribe((response) => {
+        this.court = response; 
+        this.initCourtTimes();     
+      });
+      // let courts = this.localStorageService.getItem("courts") as Court[];
+      // for (let c of courts) {
+      //   if (c.id == id) {
+      //     this.court = c;
+      //     break;
+      //   }
+      // }
+      this.initCourts();
 
-      this.initCourtTimes();
+      
 
       const today = new Date();
       const day =  String(today.getDate()).padStart(2, '0');
@@ -90,11 +105,12 @@ export class BookACourtComponent {
 
       this.chosenDate = `${year}-${month}-${day}`;
 
+      this.courtReservationService.getCourtReservations(this.court?.id, this.court.court_num, this.chosenDate);
       if (!this.localStorageService.exists("courtReservation") || 
           (this.localStorageService.getItem("courtReservation") as CourtReservation).court_id != this.court!.id) {
         this.localStorageService.setItem(
           "courtReservation",
-          new CourtReservation(this.court!.id, -1, this.chosenDate, -1, [this.currentUser.id, -1], 0)
+          new CourtReservation(this.court!.id, -1, this.chosenDate, -1, [this.currentUser.id, -1], 0, this.currentUser.id)
         )
       } else {
         this.selectedMatchType = (this.localStorageService.getItem("courtReservation") as CourtReservation).player_ids.length == 2 

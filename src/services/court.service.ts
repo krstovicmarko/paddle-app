@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WebApiService } from './web-api.service';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { CourtReservation } from '../model/court-reservation';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,11 @@ export class CourtService {
   constructor(private http: WebApiService) { }
 
   getItems(): Observable<any[]> {
-          return this.http.get(this.apiUrl);
-        }
+    return this.http.get(this.apiUrl);
+  }
   getItem(id: number): Observable<any> {
-          return this.http.get(`${this.apiUrl}/${id}`);
-        }
+    return this.http.get(`${this.apiUrl}/${id}`);
+  }
+
+  
 }
