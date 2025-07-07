@@ -1,0 +1,94 @@
+<div class="container-fluid d-flex flex-column justify-content-center align-items-center p-0 bg-light">
+    <div class="row w-100 justify-content-center" style="max-width: 600px; gap: 20px;"
+        [ngClass]="{'mtop': upcomingMatch == null}">
+        <div class="container mt-4" *ngIf="upcomingMatch">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h5 class="text-center" style="color: #333;">Your upcoming match</h5>
+                    <div class="table-responsive">
+                        <table class="table table-borderless" style="background-color: #f8f9fa;">
+                            <tbody>
+                                <tr>
+                                   <td style="width: 40%; text-align: center; padding: 12px; color: #000;">
+    <ng-container *ngIf="upcomingMatch.myTeam.includes('&'); else singlePlayer">
+        <div *ngFor="let player of upcomingMatch.myTeam.split('&')">{{player.trim()}}</div>
+    </ng-container>
+    <ng-template #singlePlayer>
+        {{upcomingMatch.myTeam}}
+    </ng-template>
+</td>
+                                    <td style="width: 20%; text-align: center; padding: 12px; color: #000;">
+                                        {{upcomingMatch.date}}<br><strong>{{upcomingMatch.time}}</strong>
+                                    </td>
+                                   <td style="width: 40%; text-align: center; padding: 12px; color: #000;">
+    <ng-container *ngIf="upcomingMatch.opponent?.includes('&'); else singlePlayer">
+        <div *ngFor="let player of upcomingMatch.opponent?.split('&')">{{player.trim()}}</div>
+    </ng-container>
+    <ng-template #singlePlayer>
+        {{upcomingMatch.opponent}}
+    </ng-template>
+</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <button class="btn startMatch" (click)="startMatch()">Start match</button>
+
+            </div>
+        </div>
+        <div class="col-5 d-flex paddle-button-back p-2">
+            <button class="btn w-100 h-100 p-0">
+                <div class="aspect-ratio-box">
+                    <div
+                        class="paddle-button-front d-flex flex-column justify-content-center align-items-center rounded shadow p-3">
+                        <img alt="" src="../../assets/images/payment-icon.png" class="img-fluid mb-2"
+                            style="max-height: 60%;" />
+                        <div class="paddle-text text-white fw-bold mt-auto">Your payments</div>
+                    </div>
+                </div>
+            </button>
+        </div>
+
+        <div class="col-5 d-flex paddle-button-back p-2">
+            <button class="btn w-100 h-100 p-0" (click)="goToMatchHistory()">
+                <div class="aspect-ratio-box">
+                    <div
+                        class="paddle-button-front d-flex flex-column justify-content-center align-items-center rounded shadow p-3">
+                        <img alt="" src="../../assets/images/match-history-icon.png" class="img-fluid mb-2"
+                            style="max-height: 60%;" />
+                        <div class="paddle-text text-white fw-bold mt-auto">Match history</div>
+                    </div>
+                </div>
+            </button>
+        </div>
+
+        <div class="col-5 d-flex paddle-button-back p-2">
+            <button class="btn w-100 h-100 p-0" (click)="goToFriendships()">
+                <div class="aspect-ratio-box">
+                    <div
+                        class="paddle-button-front d-flex flex-column justify-content-center align-items-center rounded shadow p-3">
+                        <img alt="" src="../../assets/images/friendship-icon.png" class="img-fluid mb-2"
+                            style="max-height: 60%;" />
+                        <div class="paddle-text text-white fw-bold mt-auto">Friendships</div>
+                    </div>
+                </div>
+            </button>
+        </div>
+
+        <div class="col-5 d-flex paddle-button-back p-2">
+            <button class="btn w-100 h-100 p-0" (click)="goToClubMembership()">
+                <div class="aspect-ratio-box">
+                    <div
+                        class="paddle-button-front d-flex flex-column justify-content-center align-items-center rounded shadow p-3">
+                        <img alt="" src="../../assets/images/club-membership-icon.png" class="img-fluid mb-2"
+                            style="max-height: 60%;" />
+                        <div class="paddle-text text-white fw-bold mt-auto">Club membership</div>
+                    </div>
+                </div>
+            </button>
+        </div>
+
+    </div>
+</div>

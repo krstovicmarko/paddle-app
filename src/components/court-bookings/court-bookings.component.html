@@ -1,0 +1,32 @@
+<div id="court-bookings">
+
+    <div id="choose-date">
+        Select date:
+        <input type="date" id="date" [(ngModel)]="chosenDate" (change)="onDateChange($event)" #dateInput>
+
+    </div>
+
+    <div id="choose-time">
+        Select time:
+        <select name="" id="time" [(ngModel)]="time" (change)="onDateChange($event)">
+            @for (t of times; track time) {
+                <option [value]="t">{{t.toString().padStart(2, "0")}}:00</option>
+            }
+        </select>
+    </div>
+
+    <div id="courts">
+        @for(taken of courtsTaken; track taken; let i = $index) {
+            <div class="court" 
+            [style]="{'filter': taken ? 'blur(1px)' : 'blur(0px)', 'border' : selectedCourt == i ? '2px solid blue' : 'none'}" (click)="enableBookACourt(i)">
+                Court {{i + 1}}
+            </div>
+        }
+    </div>
+
+    <div id="booking-buttons">
+        <div class="booking-button" style="background-color: green;" (click)="bookTheCourt()">Book the court</div>
+        <div class="booking-button" style="background-color: red;" (click)="cancelBooking()">Cancel booking</div>
+    </div>
+
+</div>

@@ -1,0 +1,97 @@
+<div class="content-container">
+    <div class="sticky-tabs">
+        <div class="d-flex border-bottom bg-white">
+            <button class="tab-button flex-grow-1 text-center" [class.active]="activeTab === 'previous'"
+                (click)="showTab('previous')">
+                PREVIOUS
+            </button>
+            <button class="tab-button flex-grow-1 text-center" [class.active]="activeTab === 'upcoming'"
+                (click)="showTab('upcoming')">
+                UPCOMING
+            </button>
+        </div>
+    </div>
+    <div class="tab-content-container">
+        <div class="tab-content" [class.active]="activeTab === 'previous'">
+            <div class="match-history">
+                <div class="match-row" *ngFor="let match of previousMatches">
+                    <div class="row align-items-center">
+                        <div class="col-3">
+                            <div class="date">{{match.date}}</div>
+                            <div class="time">{{match.time}}</div>
+                        </div>
+                        <div class="col-6">
+                            <div class="court">{{match.court}}</div>
+                            <div class="match-type">{{match.matchType}}</div>
+                            <div class="score">{{ match.result == "W" ? match.score : 0}}</div>
+                        </div>
+                        <div class="col-3">
+                            <div class="result-badge" [class.W]="match.result === 'W'" [class.L]="match.result === 'L'">
+                                {{match.result}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" [class.active]="activeTab === 'upcoming'">
+            <div class="match-history">
+                <div class="match-row upcoming-match" *ngFor="let match of upcomingMatches; let i = index;">
+                    <div class="row align-items-center">
+                        <div class="col-3">
+                            <div class="date">{{match.date}}</div>
+                            <div class="time">{{match.time}}</div>
+                        </div>
+                        <div class="col-6">
+                            <div class="court">{{match.court}}</div>
+                            <div class="match-type">{{match.matchType}}</div>
+                        </div>
+                        <div class="col-3 d-flex justify-content-end align-items-center">
+                            <button class="btn expand-button" (click)="toggleExpand(i,match); $event.stopPropagation()">
+                                <i class="bi bi-chevron-right" [class.rotate]="match.expanded" id="{{i}}chev"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="expanded-content" [style.display]="match.expanded ? 'block' : 'none'">
+                        <div class="row match-details">
+                            <div class="col-5 text-center">
+                                <div class="player-name">
+                                    <b>My Team</b>
+                                    <ng-container *ngIf="match.myTeam.includes('&'); else singleMyTeam">
+                                        <div *ngFor="let player of match.myTeam?.split('&')">{{player}}</div>
+                                    </ng-container>
+                                    <ng-template #singleMyTeam>
+                                        {{match.myTeam}}
+                                    </ng-template>
+                                </div>
+                            </div>
+
+                            <div class="col-2 text-center">
+                                <div class="vs-container">
+                                    <div class="vs-text">VS</div>
+                                    <div class="match-time">
+                                        <i class="far fa-clock"></i>{{match.date}}<br> {{match.time}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-5 text-center">
+                                <div class="player-name">
+                                    <b>Opponent</b>
+                                    <ng-container *ngIf="match.opponent?.includes('&'); else singleOpponent">
+                                        <div *ngFor="let player of match.opponent?.split('&')">{{player}}</div>
+                                    </ng-container>
+                                    <ng-template #singleOpponent>
+                                        {{match.opponent}}
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

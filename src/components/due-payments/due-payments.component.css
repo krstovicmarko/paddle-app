@@ -1,0 +1,33 @@
+#due-payments {
+    font-family: sans-serif;
+    padding-left: 5vw;
+}
+
+#name-div {
+    padding-top: 3vh;
+    font-size: 2.7vh;
+}
+
+#lists {
+    padding-top: 5vh;
+}
+
+.list {
+    padding-top: 5vh;
+    font-size: 2vh;
+}
+
+.list-label {
+    color: #016dbd;
+    font-weight: bold;
+}
+
+.black-arrow {
+    object-fit: contain;
+    height: 2vh;
+    width: 2vh;
+}
+
+.label {
+    padding-right: 5vw;
+}

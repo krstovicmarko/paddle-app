@@ -7,6 +7,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { jwtInterceptor } from './jwt.interceptor';
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideAnimationsAsync(), provideCharts(withDefaultRegisterables()),
+  providers: [provideRouter(routes), provideAnimationsAsync(),
      provideCharts(withDefaultRegisterables()), provideHttpClient(withInterceptors([jwtInterceptor]))]
 };

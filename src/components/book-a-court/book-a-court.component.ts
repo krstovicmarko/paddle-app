@@ -48,11 +48,40 @@ export class BookACourtComponent {
   initCourtTimes() {
     this.courtTimes = Array.from(
       {length: this.court!.work_hours_end - this.court!.work_hours_start},
-      (_, i) => new AvailableTime((i + this.court!.work_hours_start) + ":00", Availability.Available));
+      (_, i) => new AvailableTime((i + this.court!.work_hours_start).toString().padStart(2, "0") + ":00", Availability.Available));
+    
+    for (let courtReservation of this.courtReservations) {
+      console.log(`${this.chosenDate} == ${courtReservation.date}`);
+      if (this.chosenDate == courtReservation.date && courtReservation.court_id == this.court!.id) {
+        let i = courtReservation.time - this.court!.work_hours_start;
+        let len = courtReservation.duration;
+        for (; len > 0; len--, i++) {
+          this.courtTimes[i].availability = Availability.Taken;
+        }
+      }
+    }
+  }
 
-      for (let i = 0; i < this.courtTimes.length; i++) {
-      if (this.courtTimes[i].time.length != 5)
-          this.courtTimes[i].time = "0" + this.courtTimes[i].time;
+  initAvailableMatches() {
+    let now = new Date();
+    for (let courtReservation of this.courtReservations) {
+      if (courtReservation.started || courtReservation.finished)
+        continue;
+
+      let hasEmptySpace = false;
+      let hasMe = false;
+      for (let i of courtReservation.player_ids) {
+        if (i == -1) {
+          hasEmptySpace = true;
+        } else if (i == this.currentUser.id) {
+          hasMe = true;      
+        }
+      }
+
+      if (hasMe || !hasEmptySpace)
+          continue;
+      
+      this.availableMatches.push(courtReservation);
     }
   }
 
@@ -104,6 +133,7 @@ export class BookACourtComponent {
       const year = today.getFullYear();
 
       this.chosenDate = `${year}-${month}-${day}`;
+      this.initCourtTimes();
 
       this.courtReservationService.getCourtReservations(this.court?.id, this.court.court_num, this.chosenDate);
       if (!this.localStorageService.exists("courtReservation") || 
@@ -115,7 +145,10 @@ export class BookACourtComponent {
       } else {
         this.selectedMatchType = (this.localStorageService.getItem("courtReservation") as CourtReservation).player_ids.length == 2 
             ? 'single' : 'double';
+            ? 'single' : 'double';
       }
+
+      this.initAvailableMatches();
 
       this.initAvailableMatches();
     });
@@ -186,6 +219,7 @@ export class BookACourtComponent {
   }
 
   onSelectionChange(event: Event) {
+    // console.log(this.selectedMatchType);
     // console.log(this.selectedMatchType);
     let courtReservation = this.localStorageService.getItem("courtReservation") as CourtReservation;
     if (this.selectedMatchType == "single" && courtReservation.player_ids.length == 4)

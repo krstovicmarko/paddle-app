@@ -23,13 +23,14 @@ export class User {
     phone: string = "+38160666666";
     mail: string = "dummy@gmail.com";
     dateOfBirth: string = "01.01.2001.";
+    my_clubs: number[];
     email: string;
     jwtToken?: string;
     refreshToken?: string;
     password?: string;
     roles: Role[];
 
-    constructor(id: number, username: string, name: string, last_name: string, gender: Gender, pp_points: number, email: string, roles: Role[]) {
+    constructor(id: number, username: string, name: string, last_name: string, gender: Gender, pp_points: number, email: string, roles: Role[], my_clubs: number[]) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -42,5 +43,6 @@ export class User {
         this.ranking = 200 - this.wins + this.loses; 
         this.email = email;
         this.roles = roles;
+        this.my_clubs = my_clubs;
     }
 }

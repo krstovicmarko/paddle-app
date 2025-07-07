@@ -1,0 +1,29 @@
+<div id="match-confirmations">
+
+    <div id="choose-date">
+        <span>Date:</span>
+        <span id="date">{{date}}</span>
+
+    </div>
+
+    <div id="choose-time">
+        <span>Time:</span> <span id="time">{{time}}</span>
+    </div>
+
+    <div id="courts">
+        @for(confirmed of courtsConfirmed; track confirmed; let i = $index) {
+            <div class="court">
+                <div>Court {{i + 1}}</div>
+                <div class="choice-div">
+                    <div class="confirm-div">
+                        <img class="confirm" src="../../assets/images/confirm.png" alt="">
+                    </div>
+                    <div class="refuse-div">
+                        <img class="refuse" src="../../assets/images/decline.png" alt="">
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>

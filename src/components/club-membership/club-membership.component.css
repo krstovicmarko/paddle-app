@@ -1,0 +1,114 @@
+#join-padel-club{
+    padding-top: 3vh;
+    padding-bottom: 2vh;
+    font-family: sans-serif;
+}
+
+#join-padel-club-text{
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 3vh;
+}
+
+#clubs {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -2.5vw; 
+}
+
+.club-padding {
+    padding: 1.5vh 8.5vw 0vh 7vw;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.club {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/3; 
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.club-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    background-color: transparent;
+    z-index: -1; 
+}
+.available-clubs {
+    padding-top: 1vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+}
+
+.club-name {
+    padding-bottom: 1vh;
+    padding-left: 2vw;
+        padding-right: 2vw;
+    color: white;
+}
+
+
+.club-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/3;
+}
+
+.club-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.club-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px;
+    color: white;
+    font-weight: bold;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    font-size: 2vh;
+}
+
+.club-details {
+    padding: 12px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stars {
+    display: flex;
+    margin-bottom: 4px;
+}
+
+.star {
+    color: #ddd;
+    font-size: 18px;
+}
+
+.star.filled {
+    color: #FFD700;
+}
+
+.member-count {
+    color: #666;
+    font-size: 14px;
+}

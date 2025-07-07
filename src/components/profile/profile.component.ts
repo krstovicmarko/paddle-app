@@ -7,7 +7,6 @@ import { BaseChartDirective } from 'ng2-charts';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Court } from '../../model/court';
-import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-profile',
@@ -20,26 +19,26 @@ export class ProfileComponent {
 
 
   constructor(private localStorageService: LocalStorageService, private routerService: RouterService,
-              private route: ActivatedRoute, private authService: AuthenticationService
+              private route: ActivatedRoute
   ) {}
 
 
   id: number = -1;
-  user: User =  this.authService.currentUserValue;
-  currentUser: User = this.authService.currentUserValue;
+  user: User =  this.localStorageService.getItem("currentUser") as User;
+  currentUser: User = this.localStorageService.getItem("currentUser") as User;
   users: User[] = this.localStorageService.getItem("users") as User[];
   courts: Court[] = this.localStorageService.getItem("courts") as Court[];
   ngOnInit() {
     this.route.paramMap.subscribe(params  => {
       this.id = Number(params.get("id"));
       
-      // for (let user of this.users) {
-      //   if (this.id == user.id) {
-      //     this.user = user;
-      //     // console.log(this.user.points);
-      //     break;
-      //   }
-      // }
+      for (let user of this.users) {
+        if (this.id == user.id) {
+          this.user = user;
+          // console.log(this.user.points);
+          break;
+        }
+      }
     });
     const canvas = document.getElementById('graph') as HTMLCanvasElement;
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;

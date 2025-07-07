@@ -1,0 +1,36 @@
+#system-alerts {
+    font-style: sans-serif;
+}
+
+.system-alert {
+    margin-top: 2vh;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+.request {
+    padding-top: 1vh;
+}
+
+.timespans {
+    margin-top: 1vh;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    background-color: #bde3ff;
+    border-radius: 15px;
+}
+
+.buttons {
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.button {
+    padding: 1vh;
+    border-radius: 10px;
+}

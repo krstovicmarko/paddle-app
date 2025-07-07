@@ -1,0 +1,16 @@
+
+<div id="system-alerts">
+
+    @for(reservation of requestCourtReservations; track reservation; let i = $index;) {
+        <div class="system-alert">
+            <div class="request">{{userOfRequest(i)}} requested a reservation on {{getDateOfRequest(i)}}</div>
+            <div class="timespans">
+                <div>{{getTimeSpanOfRequest(i)}} court {{reservation.court_num}}</div>
+            </div>
+            <div class="buttons">
+                <div class="button" style="background-color: lawngreen;" (click)="accept(i)">Accept</div>
+                <div class="button" style="background-color: red;" (click)="decline(i)">Decline</div>
+            </div>
+        </div>
+    }
+</div>

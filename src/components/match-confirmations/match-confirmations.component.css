@@ -1,0 +1,108 @@
+#match-confirmations {
+    font-family: sans-serif;
+}
+
+span {
+    padding: 1vw;
+}
+
+#choose-date {
+    position: relative;
+    /* display: inline-block; */
+    font-size: 2.3vh;
+    padding-left: 5vw;
+    padding-top: 3vh;
+}
+
+#date {
+    padding: 1vw;
+    appearance: none;
+    -webkit-appereance: none;
+    -moz-appereance: none;
+    background: #bde3ff;
+    border: 0px solid #ccc;
+    border-radius: 10px;
+    background-size: 1em;
+    text-align: center;
+    font-size: 2vh;
+}
+
+
+
+#choose-time {
+    position: relative;
+    /* display: inline-block; */
+    font-size: 2.3vh;
+    padding-left: 5vw;
+    padding-top: 3vh;
+}
+
+#time {
+    padding: 1vw;
+    appearance: none;
+    -webkit-appereance: none;
+    -moz-appereance: none;
+    background: #bde3ff;
+    border: 0px solid #ccc;
+    border-radius: 10px;
+    background-size: 1em;
+    text-align: center;
+    font-size: 2vh;
+}
+
+#courts {
+    padding-top: 2vh;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.court {
+    background-image: url(../../assets/images/court.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 18vw;
+    width: 33vw;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    margin: 3vw;
+    text-align: center;
+    color: #dfff08;
+}
+
+#booking-buttons {
+    padding-top: 2vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.booking-button {
+    margin-top: 2vh;
+    padding: 5vw;
+    align-self: center;
+    border-radius: 15px;
+    color: white;
+}
+
+.choice-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.confirm {
+    object-fit: contain;
+    height: 2vh;
+    width: 2vh;
+}
+
+.refuse {
+    object-fit: contain;
+    height: 2vh;
+    width: 2vh;
+}

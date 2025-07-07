@@ -1,0 +1,27 @@
+<div id="join-padel-club">
+    <div id="join-padel-club-text">Join Padel Club</div>
+    <div id="clubs">
+        @for (club of this.clubs; track club.name) {
+        <div class="club-padding">
+            <div class="club-card" (click)="goToJoinClub(club.id)"
+                 [class.touch-active]="touchActive === club.id"
+                 (touchstart)="activateTouch(club.id)"
+                 (touchend)="deactivateTouch()"
+                 (touchcancel)="deactivateTouch()">
+                <div class="image-container">
+                    <img class="club-image" [src]="club.img_path" alt="{{club.name}}">
+                    <div class="club-name">{{club.name}}</div>
+                </div>
+                <div class="club-details">
+                    <div class="stars">
+                        @for (star of [1,2,3,4,5]; track star) {
+                            <span class="star" [class.filled]="star <= club.num_of_stars">★</span>
+                        }
+                    </div>
+                    <div class="member-count">{{club.num_of_members}} members</div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
