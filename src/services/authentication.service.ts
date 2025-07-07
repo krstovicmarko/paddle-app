@@ -10,8 +10,8 @@ import { PermissionEnum } from '../model/permission-enum';
 })
 export class AuthenticationService {
 
-  // apiUrl = 'https://padelwebapi.valtique.net/api'; 
-  apiUrl = 'https://localhost:7152/api'; 
+  apiUrl = 'https://padelwebapi.valtique.net/api'; 
+  //apiUrl = 'https://localhost:7152/api'; 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
   public loggedIn: BehaviorSubject<boolean>;
