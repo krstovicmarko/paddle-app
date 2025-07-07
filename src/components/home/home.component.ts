@@ -6,6 +6,7 @@ import { Gender, User } from '../../model/user';
 import { Friends } from '../../model/friends';
 import { CourtReservation } from '../../model/court-reservation';
 import { FriendRequest } from '../../model/friend-request';
+import { CourtService } from '../../services/court.service';
 
 @Component({
   selector: 'app-home',
@@ -51,17 +52,17 @@ export class HomeComponent implements OnInit {
     if (!localStorageService.exists("users")) {
       localStorageService.setItem("users",
         [
-          new User(0, "milos", "Milos", "Milosevic", Gender.Male, 10, [0,1,2]),
-          new User(1, "lazar", "Lazar", "Lazarevic", Gender.Male, 100, [0,2]),
-          new User(2, "jovana", "Jovana", "Jovanovic", Gender.Female, 1000, [3]),
-          new User(3, "ivan", "Ivan", "Ivanovic", Gender.Male, 334, [0,1]),
-          new User(4, "isidora", "Isidora", "Isidorovic", Gender.Female, 11, [1]),
-          new User(5, "danilo", "Danilo", "Danilovic", Gender.Male, 543, [1,2]),
-          new User(6, "marko", "Marko", "Markovic", Gender.Male, 123, [0,1]),
-          new User(7, "ksenija", "Ksenija", "Ksencic", Gender.Female, 125, [0,1]),
-          new User(8, "mirko", "Mirko", "Mirkovic", Gender.Male, 678, [1,3,4]),
-          new User(9, "antonija", "Antonija", "Antonic", Gender.Female, 234, [1,2]),
-          new User(10, "antonije", "Antonije", "Antonic", Gender.Male, 166, [1]),
+          new User(0, "milos", "Milos", "Milosevic", Gender.Male, 10, "milos@milos.com", [], [0,1,2]),
+          new User(1, "lazar", "Lazar", "Lazarevic", Gender.Male, 100, "lazar@lazar.com", [], [0,2]),
+          new User(2, "jovana", "Jovana", "Jovanovic", Gender.Female, 1000, "jovana@jovana.com", [], [3]),
+          new User(3, "ivan", "Ivan", "Ivanovic", Gender.Male, 334,"ivan@ivan.com", [], [0,1]),
+          new User(4, "isidora", "Isidora", "Isidorovic", Gender.Female, 11,"milos@milos.com", [], [1]),
+          new User(5, "danilo", "Danilo", "Danilovic", Gender.Male, 543,"milos@milos.com", [], [1,2]),
+          new User(6, "marko", "Marko", "Markovic", Gender.Male, 123, "milos@milos.com", [],[0,1]),
+          new User(7, "ksenija", "Ksenija", "Ksencic", Gender.Female, 125,"milos@milos.com", [], [0,1]),
+          new User(8, "mirko", "Mirko", "Mirkovic", Gender.Male, 678,"milos@milos.com", [], [1,3,4]),
+          new User(9, "antonija", "Antonija", "Antonic", Gender.Female, 234,"milos@milos.com", [], [1,2]),
+          new User(10, "antonije", "Antonije", "Antonic", Gender.Male, 166, "milos@milos.com", [], [1]),
         ]
 
       );
@@ -110,26 +111,26 @@ export class HomeComponent implements OnInit {
       let court = (localStorageService.getItem("courts") as Court[])[0];
 
       const sampleMatches: CourtReservation[] = [
-        new CourtReservation(1, 1, '2023-06-15', 18, [0, 1, 2, 3], 2),
-        new CourtReservation(2, 2, '2023-06-10', 20, [0, 4], 1),
-        new CourtReservation(0, 1, '2023-05-28', 16, [5, 6, 7, 8], 2),
-        new CourtReservation(1, 1, '2023-05-20', 19, [0, 9, 10, 1], 2),
-        new CourtReservation(1, 1, '2024-06-25', 18, [0, 1, 2, 3], 2),
-        new CourtReservation(2, 2, '2024-01-22', 20, [0, 4], 1),
-        new CourtReservation(0, 1, '2025-01-28', 16, [5, 6, 7, 8], 2),
-        new CourtReservation(1, 1, '2025-02-20', 19, [0, 9, 10, 1], 2),
-        new CourtReservation(0, 1, '2025-01-23', 16, [0, 1, 3, 2], 2),
-        new CourtReservation(1, 1, '2025-03-20', 19, [0, 9, 10, 1], 2),
+        new CourtReservation(1, 1, '2023-06-15', 18, [0, 1, 2, 3], 2, 1),
+        new CourtReservation(2, 2, '2023-06-10', 20, [0, 4], 1, 1),
+        new CourtReservation(0, 1, '2023-05-28', 16, [5, 6, 7, 8], 2, 1),
+        new CourtReservation(1, 1, '2023-05-20', 19, [0, 9, 10, 1], 2, 1),
+        new CourtReservation(1, 1, '2024-06-25', 18, [0, 1, 2, 3], 2, 1),
+        new CourtReservation(2, 2, '2024-01-22', 20, [0, 4], 1, 1),
+        new CourtReservation(0, 1, '2025-01-28', 16, [5, 6, 7, 8], 2, 1),
+        new CourtReservation(1, 1, '2025-02-20', 19, [0, 9, 10, 1], 2, 1),
+        new CourtReservation(0, 1, '2025-01-23', 16, [0, 1, 3, 2], 2, 1),
+        new CourtReservation(1, 1, '2025-03-20', 19, [0, 9, 10, 1], 2, 1),
 
-        new CourtReservation(2, 2, '2026-07-11', 19, [0, 6, 2, 3], 2),
-        new CourtReservation(1, 1, '2026-07-15', 17, [5, 1], 1),
-        new CourtReservation(0, 1, '2025-12-20', 20, [0, 10], 1),
-        new CourtReservation(2, 2, '2025-09-25', 18, [1, 0, 9, 2], 2),
-        new CourtReservation(1, 2, '2025-07-20', 19, [2, 0, 9, 3], 2),
-        new CourtReservation(0, 2, '2025-09-21', 20, [1, 4, 0, 5], 2),
-        new CourtReservation(2, 2, '2025-12-30', 18, [7, 0, 6, 2], 2),
-        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 2, [0, 1, 2, 3], 1),
-        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 4, [3, 4, 5, -1], 1)
+        new CourtReservation(2, 2, '2026-07-11', 19, [0, 6, 2, 3], 2, 1),
+        new CourtReservation(1, 1, '2026-07-15', 17, [5, 1], 1, 1),
+        new CourtReservation(0, 1, '2025-12-20', 20, [0, 10], 1, 1),
+        new CourtReservation(2, 2, '2025-09-25', 18, [1, 0, 9, 2], 2, 1),
+        new CourtReservation(1, 2, '2025-07-20', 19, [2, 0, 9, 3], 2, 1),
+        new CourtReservation(0, 2, '2025-09-21', 20, [1, 4, 0, 5], 2, 1),
+        new CourtReservation(2, 2, '2025-12-30', 18, [7, 0, 6, 2], 2, 1),
+        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 2, [0, 1, 2, 3], 1, 1),
+        new CourtReservation(court.id, 1, `${year}-${month}-${day}`, court.work_hours_start + 4, [3, 4, 5, -1], 1, 1)
       ];
 
       sampleMatches[0].finished = true;
@@ -157,6 +158,14 @@ export class HomeComponent implements OnInit {
     }
 
       this.upcomingMatch = this.getUpcomingMatch();
+  }
+
+  loadItems() {
+    this.courtSvc.getItems().subscribe((items: Court[]) => {
+      this.courts = items;
+      if(this.items!=null)
+        alert('Returned: '+this.items.length+' courts!');
+    });
   }
 
   goToBookACourt(id: number) {

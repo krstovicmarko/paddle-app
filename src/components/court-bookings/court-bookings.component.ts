@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { Court } from '../../model/court';
 import { CourtReservation } from '../../model/court-reservation';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-court-bookings',
@@ -13,7 +14,7 @@ import { CourtReservation } from '../../model/court-reservation';
 })
 export class CourtBookingsComponent {
 
-  constructor(private localStorageService: LocalStorageService) {};
+  constructor(private localStorageService: LocalStorageService, private authenticationService: AuthenticationService) {};
   chosenDate: string = "";
   time: string = "";
   times: string[] = [];
@@ -68,7 +69,7 @@ export class CourtBookingsComponent {
       return;
 
     let courtReservation = new CourtReservation(this.court.id, this.selectedCourt + 1, this.chosenDate, Number(this.time),
-  [-1, -1, -1, -1], 1);
+  [-1, -1, -1, -1], 1, this.authenticationService.currentUserValue.id);
 
     this.courtReservations.push(courtReservation);
     this.localStorageService.setItem("courtReservations", this.courtReservations);

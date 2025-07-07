@@ -4,8 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterService } from '../../services/router.service';
 import { CourtReservation } from '../../model/court-reservation';
 import { User } from '../../model/user';
-import { CourtReservation } from '../../model/court-reservation';
-import { User } from '../../model/user';
 
 @Component({
   selector: 'app-confirmation',

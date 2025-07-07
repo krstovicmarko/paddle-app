@@ -14,7 +14,6 @@ import { AuthenticationService } from '../../services/authentication.service';
   selector: 'app-confirm-match',
   standalone: true,
   imports: [FormsModule],
-  imports: [FormsModule],
   templateUrl: './confirm-match.component.html',
   styleUrl: './confirm-match.component.css'
 })
@@ -25,7 +24,6 @@ export class ConfirmMatchComponent {
   ){}
 
   courtReservation: CourtReservation = this.localStorageService.getItem("courtReservation") as CourtReservation;
-  courtReservations: CourtReservation[] = this.localStorageService.getItem("courtReservations") as CourtReservation[];
   courtReservations: CourtReservation[] = this.localStorageService.getItem("courtReservations") as CourtReservation[];
   users: User[] = this.localStorageService.getItem("users") as User[];
   selectedMatchType: string = this.courtReservation.player_ids.length == 2 ? 'single' : 'double';
@@ -119,93 +117,6 @@ export class ConfirmMatchComponent {
       this.localStorageService.remove("courtReservation");
     });
     this.routerService.navigateTo("confirmation/booked");
-  }
-
-  startMatch() {
-    this.courtReservation.started = true;
-    this.saveMatch();
-
-  }
-
-  saveMatch() {
-    this.localStorageService.setItem("match", this.courtReservation);
-    
-    for (let i = 0; i < this.courtReservations.length; i++) {
-      if (this.courtReservation.court_id == this.courtReservations[i].court_id &&
-          this.courtReservation.court_num == this.courtReservations[i].court_num &&
-          this.courtReservation.time == this.courtReservations[i].time
-      ) {
-        this.courtReservations[i] = this.courtReservation;
-      }
-    }
-
-    this.localStorageService.setItem("courtReservations", this.courtReservations);
-  }
-
-  getPoints(i: number) {
-    return this.courtReservation.sets[i] != -1 ? this.courtReservation.sets[i] : '+';
-  }
-
-  onInputClick(i: number) {
-    this.points[i] = "";
-  }
-
-  onInputDone(i: number) {
-    if (!isNaN(Number(this.points[i]))) {
-      this.courtReservation.sets[i] = !isNaN(Number(this.points[i])) ? Number(this.points[i]) : -1;
-      this.saveMatch();
-    } else {
-      this.points[i] = "+";
-    }
-  }
-
-  endMatch() {
-    let myId = this.currentUser.id;
-    let myTeam = 0;
-    if (this.courtReservation.player_ids[1] == myId || 
-        (this.courtReservation.player_ids.length == 4 && this.courtReservation.player_ids[3] == myId))
-        myTeam = 1;
-    
-    let myTeamSets = 0;
-    let opposingTeam = myTeam ^ 1;
-    if (this.courtReservation.sets[0] == -1 || this.courtReservation.sets[1] == -1)
-      return;
-    
-    myTeamSets += this.courtReservation.sets[0 + myTeam] > this.courtReservation.sets[0 + opposingTeam] ? 1 : 0;
-
-    if (this.courtReservation.sets[2] == -1 || this.courtReservation.sets[3] == -1)
-      return;
-    
-    myTeamSets += this.courtReservation.sets[2 + myTeam] > this.courtReservation.sets[2 + opposingTeam] ? 1 : 0;
-
-    if (myTeamSets == 2) {
-      this.courtReservation.finished = true;
-      this.saveMatch();
-      this.routerService.navigateTo('confirmation/win');
-    }
-    else if (myTeamSets == 0) {
-      this.courtReservation.finished = true;
-      this.saveMatch();
-      this.routerService.navigateTo('confirmation/loss');
-    }
-      else {
-      if (this.courtReservation.sets[4] == -1 || this.courtReservation.sets[5] == -1)
-        return;
-      
-      myTeamSets += this.courtReservation.sets[4 + myTeam] > this.courtReservation.sets[4 + opposingTeam] ? 1 : 0;
-    }
-
-    if (myTeamSets == 2) {
-      this.courtReservation.finished = true;
-      this.saveMatch();
-      this.routerService.navigateTo('confirmation/win');
-    }
-    else if (myTeamSets == 1) {
-      this.courtReservation.finished = true;
-      this.saveMatch();
-      this.routerService.navigateTo('confirmation/loss');
-    }
-    
   }
 
   startMatch() {

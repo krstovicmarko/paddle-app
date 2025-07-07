@@ -85,29 +85,6 @@ export class BookACourtComponent {
     }
   }
 
-  initAvailableMatches() {
-    let now = new Date();
-    for (let courtReservation of this.courtReservations) {
-      if (courtReservation.started || courtReservation.finished)
-        continue;
-
-      let hasEmptySpace = false;
-      let hasMe = false;
-      for (let i of courtReservation.player_ids) {
-        if (i == -1) {
-          hasEmptySpace = true;
-        } else if (i == this.currentUser.id) {
-          hasMe = true;      
-        }
-      }
-
-      if (hasMe || !hasEmptySpace)
-          continue;
-      
-      this.availableMatches.push(courtReservation);
-    }
-  }
-
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       // console.log(params.get('id'));
@@ -135,7 +112,8 @@ export class BookACourtComponent {
       this.chosenDate = `${year}-${month}-${day}`;
       this.initCourtTimes();
 
-      this.courtReservationService.getCourtReservations(this.court?.id, this.court.court_num, this.chosenDate);
+      if(this.court)
+            this.courtReservationService.getCourtReservations(this.court?.id, 1, new Date(this.chosenDate));
       if (!this.localStorageService.exists("courtReservation") || 
           (this.localStorageService.getItem("courtReservation") as CourtReservation).court_id != this.court!.id) {
         this.localStorageService.setItem(
@@ -144,7 +122,6 @@ export class BookACourtComponent {
         )
       } else {
         this.selectedMatchType = (this.localStorageService.getItem("courtReservation") as CourtReservation).player_ids.length == 2 
-            ? 'single' : 'double';
             ? 'single' : 'double';
       }
 
